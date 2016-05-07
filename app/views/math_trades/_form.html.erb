@@ -1,0 +1,50 @@
+<%= form_for @trade do |form| %>
+	<% if @trade.errors.any? %>
+		<div class="callout alert">
+			<h3>Something went wrong.</h3>
+			<ul>
+				<% for message in @trade.errors.full_messages %>
+					<li><%= message %></li>
+				<% end %>
+			</ul>
+		</div>
+	<% end %>
+	<p>
+		<%= form.label :name %>
+		<%= form.text_field :name %>
+	</p>
+	
+	<p>
+		<%= form.label :description %>
+		<%= form.text_area :description, class: "description-input" %>
+	</p>
+	
+	<p class="row">
+		<div class="small-6 columns">
+			<%= form.label :offer_deadline %>
+			<%= form.text_field :offer_deadline, class: "datetime-picker" %>
+		</div>
+		<div class="small-6 columns">
+			<%= form.label :wants_deadline %>
+			<%= form.text_field :wants_deadline, class: "datetime-picker" %>
+		</div>
+	</p>
+	
+	
+	<p>
+		<%= form.label :shipping, "Shipping?" %>
+		<%= form.check_box :shipping %>
+	</p>
+	
+	<p>
+		<%= form.label :discussion_thread, "Discussion Thread ID" %>
+		<%= form.text_field :discussion_thread %>
+		<p class="help-text">
+			This is the thread ID for your math trade's discussion, for example: https://boardgamegeek.com/thread/XXXXXXXX/my-first-match-trade-discussion
+		</p>
+	</p>
+	
+	<p>
+		<%= form.submit "Save Trade", class: "button" %>
+	</p>
+<% end %>

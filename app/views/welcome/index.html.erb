@@ -1,0 +1,8 @@
+<% if current_user %>
+	<% [:get_owned, :get_for_trade, :get_wishlist, :get_previously_owned, :get_want_to_play, :get_want_to_buy, :get_want_in_trade].each do |filter| %>
+	<p>
+		<b><%= filter %></b><br>
+		<%= current_user.send(filter).map { |x| x[:name] }.to_sentence %>
+	</p>
+	<% end %>
+<% end %>
