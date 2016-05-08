@@ -1,0 +1,32 @@
+@import "foundation_and_overrides";
+@import "forms";
+@import "foundation-datetimepicker";
+@import "math_trades";
+/* Add imports of custom sass/scss files here */
+
+.top-alert {
+	min-height: 20px;
+	padding: 0.2rem 1rem;
+	margin-bottom: 0;
+	margin-top: -1px;
+}
+
+.top-alert:first-child {
+	margin-top: 0;
+}
+
+.top-alert:last-child {
+	margin-bottom: 1rem;
+}
+
+.main-content {
+	margin: 10px;	
+}
+
+.menu-text {
+	list-style: none;
+}
+
+.menu-text a {
+	color: #000;
+}
