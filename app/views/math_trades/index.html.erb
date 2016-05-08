@@ -1,0 +1,4 @@
+<h1>Active Trades</h1>
+<% @trades.each do |trade| %>
+	<%= link_to trade.name, trade %>
+<% end %>

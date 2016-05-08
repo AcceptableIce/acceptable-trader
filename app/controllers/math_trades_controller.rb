@@ -1,12 +1,12 @@
 class MathTradesController < ApplicationController
 	def index
-		
+		@trades = MathTrade.where(status: "active")
 	end
 	
 	def new
 		@trade = MathTrade.new
-		if !current_user.validated?
-			render :unauthorized
+		if !current_user.verified?
+			show_error 'You must validate your BGG account to start a math trade.'
 		end
 	end
 	

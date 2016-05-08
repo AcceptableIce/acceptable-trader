@@ -9,15 +9,23 @@ class ApplicationController < ActionController::Base
 	
 	protected 
 	
+	def show_error(message)
+    redirect_to root_url, flash: { "callouts": [{ type: "alert", message: message }]}
+	end
+	
 	def add_callout(type, message)
-		if @callouts.nil?
-			@callouts = []
-		end
-		
 		@callouts.push({ type: type, message: message })
 	end
 		
 	def check_validation
+		if @callouts.nil?
+			@callouts = []
+			if !flash[:callouts].nil?
+				flash[:callouts].each do |callout|
+					add_callout(callout["type"], callout["message"])
+				end
+			end
+		end	
 		if !current_user.nil? && current_user.bgg_user.nil?
 			add_callout("warning", "You have not yet linked your BGG account to your Math Trade Manager account. " + 
 				"Until you do so, you won't be able to enter any trades.")

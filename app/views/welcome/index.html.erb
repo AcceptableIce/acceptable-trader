@@ -5,4 +5,6 @@
 		<%= current_user.send(filter).map { |x| x[:name] }.to_sentence %>
 	</p>
 	<% end %>
+<% else %>
+	Please log in to see options.
 <% end %>

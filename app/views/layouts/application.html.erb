@@ -14,39 +14,47 @@
 
   <body>
 		<div class="top-bar">
-		  <div class="top-bar-left">
-		    <ul class="dropdown menu" data-dropdown-menu>
-		      <li class="menu-text">Math Trade Manager</li>
-		      <li>
-		        <a href="#">One</a>
-		        <ul class="menu vertical">
-		          <li><a href="#">One</a></li>
-		          <li><a href="#">Two</a></li>
-		          <li><a href="#">Three</a></li>
-		        </ul>
-		      </li>
-		      <li><a href="#">Two</a></li>
-		      <li><a href="#">Three</a></li>
-		    </ul>
+			<div class="top-bar-title">
+		    <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
+		      <button class="menu-icon dark" type="button" data-toggle></button>
+		    </span>
+				<li class="menu-text"><%= link_to "Math Trade Manager", root_url%></li>
 		  </div>
-		  <div class="top-bar-right">
-				<% if current_user %>
-		    <ul class="dropdown menu" data-dropdown-menu>
-			    <li>
-			    	<a href="#"> Welcome, <%= current_user.bgg_account %></a>
-			      <ul class="menu vertical">
-				      <li><a href="#">Account Settings</a></li>
-				      <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
-			      </ul>
-			    </li>
-		    </ul>
-		    <% else %>
-		    	<ul class="dropdown menu" data-dropdown-menu>
-			    	<li><%= link_to "Login", user_session_path %></li>
-			    	<li><%= link_to "Register", new_user_registration_path %></li>
-		    	</ul>
-		    <% end %>
-		  </div>
+			<div id="responsive-menu">
+			  <div class="top-bar-left">
+			    <ul class="dropdown menu" data-dropdown-menu>
+				   
+			      <li>
+			        <a href="#">Trades</a>
+			        <ul class="menu vertical">
+				        <li><%= link_to "Trades I'm In", math_trades_path %></li>
+				        <li><%= link_to "Trades I'm Running", math_trades_path %></li>
+			          <li><%= link_to "All Trades", math_trades_path %></li>
+			        </ul>
+			      </li>
+			      <li><a href="#">Two</a></li>
+			      <li><a href="#">Three</a></li>
+			    </ul>
+			  </div>
+			  <div class="top-bar-right">
+					<% if current_user %>
+			    <ul class="dropdown menu" data-dropdown-menu>
+				    <li>
+				    	<a href="#"> Welcome, <%= current_user.bgg_account %></a>
+				      <ul class="menu vertical">
+					      <li><a href="#">Account Settings</a></li>
+					      <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
+				      </ul>
+				    </li>
+			    </ul>
+			    <% else %>
+			    	<ul class="dropdown menu" data-dropdown-menu>
+				    	<li><%= link_to "Login", user_session_path %></li>
+				    	<li><%= link_to "Register", new_user_registration_path %></li>
+			    	</ul>
+			    <% end %>
+			  </div>
+			</div>
 		</div>
 		<div class="top-alerts">
 			<% if flash[:notice] %>
