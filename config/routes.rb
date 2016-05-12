@@ -14,7 +14,8 @@ Rails.application.routes.draw do
 	
 	resources :math_trades, path: 'trades' do
 		resources :math_trade_items, path: 'items'
-		resources :math_trade_wants, path: 'wants' 
+		resources :math_trade_wants, path: 'wants'
+		resources :want_groups, path: 'groups'
 		
 		get :retrieve_items, on: :member
 		get :wantlist, on: :member, as: :manage_wantlist

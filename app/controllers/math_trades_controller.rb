@@ -39,6 +39,14 @@ class MathTradesController < ApplicationController
 			end
 			hash
 		end
+		
+		@groups = @trade.get_user_groups(current_user).map do |x|
+			hash = x.as_json
+			hash[:want_values] = x.want_items.pluck(:math_trade_item_id)
+			hash[:want_links] = x.want_links.pluck(:math_trade_want_id)
+			hash[:is_group] = true
+			hash
+		end
 	end
 	
 	def confirm_delete
@@ -130,20 +138,58 @@ class MathTradesController < ApplicationController
 		@trade = MathTrade.find(params[:id])
 		grid = params[:grid]
 		wants_found = []
+		want_groups_found = []
+		want_links_found = {}
 		grid.each do |want|
-			@want = MathTradeWant.find(want[1][:id].to_i)
+			is_group = want[1][:is_group] == "true"
+			if is_group
+				@want = WantGroup.find(want[1][:id].to_i)
+			else
+				@want = MathTradeWant.find(want[1][:id].to_i)
+			end
+			
 			want_items_found = []
 			want[1][:items].each do |item|
 				state = item[1][:state] == "true"
+				is_group_item = item[1][:is_group] == "true"
+				if is_group_item
+					@item = WantGroup.find(item[1][:id].to_i)
+					want_links_found[@item] = [] if want_links_found[@item].nil?
+				end
 				if state
-					@want.want_items.find_or_create_by(math_trade_want_id: @want.id, math_trade_item_id: item[1][:id].to_i)
-					want_items_found.push(item[1][:id].to_i)
+					if !is_group_item
+						if is_group
+							@want.want_items.find_or_create_by(want_group_id: @want.id, math_trade_item_id: item[1][:id].to_i)
+						else
+							@want.want_items.find_or_create_by(math_trade_want_id: @want.id, math_trade_item_id: item[1][:id].to_i)
+						end
+						want_items_found.push(item[1][:id].to_i)
+					else
+						if !is_group
+							@item.want_links.find_or_create_by(want_group_id: @item.id, math_trade_want_id: @want.id)
+							want_links_found[@item].push(@want.id)
+						end
+					end
 				end
 			end
+			
 			@want.want_items.where.not({ math_trade_item_id: want_items_found }).destroy_all
-			wants_found.push(want[1][:id].to_i)
+			
+			if is_group
+				want_groups_found.push(want[1][:id].to_i)
+			else
+				wants_found.push(want[1][:id].to_i)
+			end
 		end
+		
+		want_links_found.each do |key, value|
+			key.want_links.where.not({ math_trade_want_id: value }).destroy_all
+			#@want.want_links.where.not({ math_trade_item_id: want_links_founds }).destroy_all
+		end
+		
 		@trade.get_user_wantlist(current_user).where.not({ id: wants_found }).destroy_all
+		@trade.get_user_groups(current_user).where.not({ id: want_groups_found }).destroy_all
+		
 		render json: { error: false, message: "Saved successfully." }
 	end
 	

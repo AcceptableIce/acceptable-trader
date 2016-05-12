@@ -23,8 +23,6 @@ class MathTradeWantsController < ApplicationController
 		end
 	end
 		
-	private
-	
 	def want_params
 		params.require(:math_trade_want).permit(:user_id, :math_trade_id, :math_trade_item_id)
 	end
