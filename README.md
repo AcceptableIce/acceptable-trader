@@ -11,4 +11,4 @@ Contributions to Acceptable Trader are encouraged. This repository is public for
 If you have a change that you think would improve Acceptable Trader, please issue a pull request and I'll look at it as soon as I can. If your change is critical, you can contact me on [Twitter (@AcceptableIce)](http://twitter.com/acceptableice).
 
 ## License
-Acceptable Trader is [GPL licensed](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)#summary).
+Acceptable Trader is [GPL-3 licensed](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)#summary).
