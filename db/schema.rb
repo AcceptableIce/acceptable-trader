@@ -11,7 +11,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160507022423) do
+ActiveRecord::Schema.define(version: 20160511212105) do
+
+  create_table "math_trade_items", force: :cascade do |t|
+    t.integer  "bgg_item",      limit: 4,     default: -1, null: false
+    t.integer  "user_id",       limit: 4,                  null: false
+    t.integer  "math_trade_id", limit: 4,                  null: false
+    t.text     "description",   limit: 65535
+    t.string   "alt_name",      limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "position",      limit: 4
+  end
+
+  add_index "math_trade_items", ["math_trade_id"], name: "index_math_trade_items_on_math_trade_id", using: :btree
+  add_index "math_trade_items", ["user_id"], name: "index_math_trade_items_on_user_id", using: :btree
+
+  create_table "math_trade_want_items", force: :cascade do |t|
+    t.integer  "math_trade_want_id", limit: 4, null: false
+    t.integer  "math_trade_item_id", limit: 4, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "math_trade_want_items", ["math_trade_item_id"], name: "index_math_trade_want_items_on_math_trade_item_id", using: :btree
+  add_index "math_trade_want_items", ["math_trade_want_id"], name: "index_math_trade_want_items_on_math_trade_want_id", using: :btree
+
+  create_table "math_trade_wants", force: :cascade do |t|
+    t.integer  "user_id",            limit: 4, null: false
+    t.integer  "math_trade_id",      limit: 4, null: false
+    t.integer  "math_trade_item_id", limit: 4, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "math_trade_wants", ["math_trade_id"], name: "index_math_trade_wants_on_math_trade_id", using: :btree
+  add_index "math_trade_wants", ["math_trade_item_id"], name: "index_math_trade_wants_on_math_trade_item_id", using: :btree
+  add_index "math_trade_wants", ["user_id"], name: "index_math_trade_wants_on_user_id", using: :btree
 
   create_table "math_trades", force: :cascade do |t|
     t.string   "name",              limit: 255,                   null: false
@@ -24,8 +60,10 @@ ActiveRecord::Schema.define(version: 20160507022423) do
     t.integer  "discussion_thread", limit: 4
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false
+    t.datetime "deleted_at"
   end
 
+  add_index "math_trades", ["deleted_at"], name: "index_math_trades_on_deleted_at", using: :btree
   add_index "math_trades", ["moderator_id"], name: "index_math_trades_on_moderator_id", using: :btree
 
   create_table "users", force: :cascade do |t|
@@ -49,5 +87,12 @@ ActiveRecord::Schema.define(version: 20160507022423) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "math_trade_items", "math_trades"
+  add_foreign_key "math_trade_items", "users"
+  add_foreign_key "math_trade_want_items", "math_trade_items"
+  add_foreign_key "math_trade_want_items", "math_trade_wants"
+  add_foreign_key "math_trade_wants", "math_trade_items"
+  add_foreign_key "math_trade_wants", "math_trades"
+  add_foreign_key "math_trade_wants", "users"
   add_foreign_key "math_trades", "users", column: "moderator_id"
 end

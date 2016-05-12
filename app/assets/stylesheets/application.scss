@@ -1,7 +1,12 @@
 @import "foundation_and_overrides";
-@import "forms";
 @import "foundation-datetimepicker";
+@import 'foundation-icons';
+
+@import "forms";
 @import "math_trades";
+@import "math_trade_items";
+
+@import "select2";
 /* Add imports of custom sass/scss files here */
 
 .top-alert {
@@ -29,4 +34,29 @@
 
 .menu-text a {
 	color: #000;
+}
+
+.no-js .responsive-menu-toggle {
+	display: none;
+}
+
+.top-bar {
+	background-color: #1a669f;
+}
+
+.top-bar a {
+	color: #fff;
+	background-color: #1a669f;
+}
+
+.top-bar .dropdown.menu > li.is-dropdown-submenu-parent > a::after {
+	border-top-color: #fff;
+}
+
+.top-bar ul.submenu {
+	border: none;
+}
+
+.top-bar ul.submenu li:hover a {
+	background-color: #4488bc;
 }

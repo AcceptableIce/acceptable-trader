@@ -1,0 +1,41 @@
+<%= form_for([@item.math_trade, @item]) do |form| %>
+	<% if @item.errors.any? %>
+		<div class="callout alert">
+			<h3>Something went wrong.</h3>
+			<ul>
+				<% for message in @item.errors.full_messages %>
+					<li><%= message %></li>
+				<% end %>
+			</ul>
+		</div>
+	<% end %>
+	<p>
+		<%= form.label :bgg_item, "BoardGameGeek Item" %>
+		<%= form.select :bgg_item, [], {}, value: ActiveSupport::JSON.encode(BggHelper.get_item(@item.bgg_item)), class: "bgg-search" %>
+		<p class="help-text">
+			Leave this blank if you're trading outside the scope of BoardGameGeek.
+		</p>
+	</p>
+	<p>
+		<%= form.label :alt_name, "Alternate Name" %>
+		<%= form.text_field :alt_name %>
+		<p class="help-text">
+			You can define an alternate name; if you're trading outside the scope of BoardGameGeek, please do this.
+		</p>
+	<p>
+		<%= form.label :description %>
+		<%= form.text_area :description, class: "description-input" %>
+		<p class="help-text">
+			You can list another item in the description if you know its BoardGameGeek ID. Just add [item={id}] to your description.<br>
+			The BoardGameGeek ID of an item can be found by going to its page and looking at the URL. For example, if you want to list Suburbia (2012)
+			<code>(https://boardgamegeek.com/boardgame/123260/suburbia)</code>, the ID would be <code>123260</code>.
+	<p>
+	
+	<p>	
+		<% if @item.new_record? %>
+			<%= form.submit "Add Item", class: "button" %>
+		<% else %>
+			<%= form.submit "Update Item", class: "button" %>
+		<% end %>
+	</p>
+<% end %>

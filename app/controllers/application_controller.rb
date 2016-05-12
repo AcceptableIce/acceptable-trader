@@ -28,7 +28,13 @@ class ApplicationController < ActionController::Base
 		end	
 		if !current_user.nil? && current_user.bgg_user.nil?
 			add_callout("warning", "You have not yet linked your BGG account to your Math Trade Manager account. " + 
-				"Until you do so, you won't be able to enter any trades.")
+				"Until you do so, you won't be able to enter any trades.<br><a href='/bgg/send_validation'>Send a New Code.</a>")
+		end
+	end
+	
+	def require_validation
+		if !(current_user && current_user.validated?)
+			show_error "Your BGG account must be validated to access this page."
 		end
 	end
 	

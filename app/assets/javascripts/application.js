@@ -10,17 +10,17 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require modernizr
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
+//= require select2
 //= require foundation
 //= require foundation-datetimepicker
+//= require react
+//= require react_ujs
+//= require components
+//= require_tree .
 
 $(function(){ 
 	$(document).foundation(); 
-	$(".datetime-picker").fdatetimepicker({
-		format: 'mm-dd-yyyy hh:ii',
-		disableDblClickSelection: true,
-		pickTime: true
-	});
 });

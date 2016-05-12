@@ -1,28 +1,30 @@
+<% base_url = "/trades/" + @trade.id.to_s %>
 <div class="row">
 	<div class="medium-3 large-2 columns">
 		<ul class="vertical menu trade-nav" id="trade-menu">
+			<li><a href="<%= base_url %>">Home</a></li>
       <li class="trade-nav-title">My Listings</li>
-      <li><a href="installation.html">List a New Item</a></li>
-      <li><a href="starter-projects.html">My Listings</a></li>
+      <li><a href="<%= base_url %>/items/new">List a New Item</a></li>
+      <li><a href="<%= base_url %>/items?filter=me">My Listings</a></li>
           
       <li class="trade-nav-title">My Wants</li>
-      <li><a href="global.html">Add Items To Wantlist</a></li>
-      <li><a href="flexbox.html">Manage Wantlist</a></li>
+      <li><a href="<%= base_url %>/items">Add Items to Wantlist</a></li>
+      <li><a href="<%= base_url %>/wantlist">Manage Wantlist</a></li>
     
       <li class="trade-nav-title">Filter</li>
-      <li><a href="grid.html">On Wishlist</a></li>
-      <li><a href="flex-grid.html">On Want-In-Trade List</a></li>
-      <li><a href="flex-grid.html">On Want-To-Buy List</a></li>
-      <li><a href="visibility.html">Items I Already Own</a></li>
-      <li><a href="float-classes.html">Gift Certificates</a></li>
-      <li><a href="float-classes.html">GeekGold</a></li>
-      <li><a href="float-classes.html">Cash</a></li>
+      <li><a href="<%= base_url %>/items?filter=wishlist">On Wishlist</a></li>
+      <li><a href="<%= base_url %>/items?filter=wantintrade">On Want-In-Trade List</a></li>
+			<li><a href="<%= base_url %>/items?filter=wanttobuy">On Want-To-Buy List</a></li>
+      <li><a href="<%= base_url %>/items?filter=owned">Items I Already Own</a></li>
+      <li><a href="<%= base_url %>/items?filter=giftcertificate">Gift Certificates</a></li>
+      <li><a href="<%= base_url %>/items?filter=geekgold">GeekGold</a></li>
+			<li><a href="<%= base_url %>/items?filter=cash">Cash</a></li>
 
 			<% if @trade.moderator_id == current_user.id %>
 	      <li class="trade-nav-title">Administration</li>
 	      <li><%= link_to "Edit Trade Info", edit_math_trade_path(@trade) %></li>
 	      <li><a href="typography-base.html">Manage Trade Status</a></li>
-	      <li><a href="typography-helpers.html">Delete Trade</a></li>
+	      <li><a href="<%= base_url %>/confirm_delete">Delete Trade</a></li>
       <% end %>
     </ul>
 	</div>

@@ -35,3 +35,57 @@
 .trade-nav-title:first-child {
 	border-top: none;
 }
+
+.trade-nav li:first-child {
+  position: relative;
+  top: 8px;
+}
+
+.wantlist-container {
+	overflow-x: auto;
+}
+
+.wantlist {
+	width: auto;
+	margin-top: 60px;
+}
+
+.wantlist thead {
+	 background-color: transparent;
+	 border: none;
+}
+
+.wantlist th {
+  height: 140px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 0;
+}
+
+.csstransforms .wantlist th > div {
+	transform: translate(25px, 58px) rotate(315deg);
+  width: 15px;
+}
+
+.csstransforms .wantlist th > div > span {
+	border-bottom: 1px solid #ccc;
+  padding: 1px 10px;
+}
+
+.wantlist tbody td {
+	border-right: 1px solid #ccc;
+	text-align: center;
+	padding: 3px 10px;
+	min-width: 34px;
+	cursor: pointer;
+}
+
+.wantlist tbody td.wantlist-row-name {
+	text-align: right;	
+}
+
+.wantlist-row-remove {
+	margin: 0;
+	float: left;
+	margin-right: 10px;
+}

@@ -1,0 +1,8 @@
+<%= render layout: "trade_layout" do %>
+<h3>How sure are you about this?</h3>
+<p>
+	If you delete your trade, it's gone forever. Make sure you're really committed before hitting the button below.
+</p>
+
+<%= link_to "Delete " + @trade.name + " Forever", math_trade_path(@trade), method: :delete, class: "button alert large" %>
+<% end %>

@@ -8,10 +8,31 @@ class BggController < ApplicationController
 				redirect_to root_path
 				flash[:notice] = "Verification successful!"
 			else
-				flash[:alert] = "Verification code did not match our records."
+				show_error "Verification code did not match our records."
 			end 
 		else
 			redirect_to login_path
 		end
 	end
+	
+	def send_validation
+		if user_signed_in? && !current_user.verified?
+			current_user.send_verification_message
+			flash[:notice] = "GeekMail sent!"
+		end
+		
+		redirect_to root_path
+	end
+	
+	def search_items
+		query = params[:query]
+		items = Rails.cache.fetch("search/#{query}", expires_in: 10.minutes) do
+			BoardGameGem.search(query)
+		end
+		page_start = params[:page] ? params[:page].to_i * 30 : 0
+		page_end = page_start + 29
+		items[:items] = items[:items][page_start..page_end]
+		render json: items
+	end
+
 end

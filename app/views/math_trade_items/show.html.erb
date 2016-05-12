@@ -1,0 +1,48 @@
+<%= render layout: "math_trades/trade_layout" do %>
+<div class="trade-item-data">
+	<% if @bgg_item.thumbnail != "" %>
+		<img src="<%= @bgg_item.thumbnail %>" />
+	<% end %>
+	<% if @bgg_item.statistics %>
+		<p>
+			<b>Average Ranking:</b> <%= @bgg_item.statistics[:average] %><br>
+			<% @bgg_item.statistics[:ranks].each do |rank| %>
+				<b><%= rank[:friendly_name] ? rank[:friendly_name] : rank[:name] %>:</b> <%= rank[:value] %><br>
+			<% end %>
+		</p>
+	<% end %>
+</div>
+<div class="trade-item-header">
+	<h2>
+		<%= @item.position %>. <%= @item.alt_name && @item.alt_name.length > 0 ? @item.alt_name : @bgg_item.name %> 
+		<% if @bgg_item.year_published %>
+			(<%= @bgg_item.year_published %>)
+		<% end %>
+	</h2>
+	<h5>Listed in <%= link_to @item.math_trade.name, @item.math_trade %> by <%= @item.user.bgg_account %></h5>
+	<% if @item.updated_at != @item.created_at %>
+		<small>Last edited <%= distance_of_time_in_words_to_now(@item.updated_at) %> ago.</small>
+	<% end %>	
+	<fieldset class="fieldset">
+		<legend><%= @item.user.bgg_account%> said</legend>
+		<%= react_component "TradeItemDescription", { description: @item.description, linked_items: @item.get_linked_items } %>
+	</fieldset>
+	<% if @item.user_id == current_user.id %>
+		<%= link_to "Edit", edit_math_trade_math_trade_item_path(@trade, @item), class: "button tiny success" %>
+	<% end %>
+</div>
+<hr>
+<p>
+	<%= raw @bgg_item.description %>
+</p>
+<% if @bgg_item.playing_time %>
+	<p>
+		<b>Play Time:</b> <%= @bgg_item.playing_time %> minutes.
+	</p>
+<% end %>
+<% if @bgg_item.statistics %>
+	<p>
+		<b>Bayes Average:</b> <%= @bgg_item.statistics[:bayes] %>
+	</p>		
+<% end %>
+<% end %>

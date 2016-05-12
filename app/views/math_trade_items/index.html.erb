@@ -1,0 +1,16 @@
+<%= render layout: "math_trades/trade_layout" do %>
+	<% if @trade.items_from_user(current_user).length > 0 %>
+		<%= react_component 'TradeItemList', { trade: @trade, user_id: current_user.id, filter: params[:filter] } %>
+		<p>
+			When you've finished selection items, click the button below to manage your wantlist.
+		</p>
+		<%= link_to "Manage My Wantlist", manage_wantlist_math_trade_url(@trade), class: "button large" %>
+	<% else %>
+		<h3>Hold on a moment...</h3>
+		<p>
+			You can't add items to your wantlist until you've listed some items of your own. 
+			Click the link below to do that now.
+		</p>
+		<%= link_to "Add an Item", new_math_trade_math_trade_item_path(@trade), class: "button large" %>
+	<% end %>
+<% end %>

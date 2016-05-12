@@ -12,9 +12,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
    	bgg_account_name = params[:user][:bgg_account]
-   	bgg_account = BGGUser.find(bgg_account_name)
+   	bgg_account = BoardGameGem.get_user(bgg_account_name)
 		if !bgg_account.nil?
-			params[:user][:bgg_account_verification_code] = (0...20).map { (65 + rand(26)).chr }.join
 			super
   	else
   		@user.errors.add(:bgg_account, " could not be found.")

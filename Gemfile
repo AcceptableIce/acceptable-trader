@@ -36,10 +36,17 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 gem 'devise'
-gem 'bgg'
 gem 'mysql2' 
 gem 'foundation-rails'
 gem 'foundation-datetimepicker-rails'
+gem 'foundation-icons-sass-rails'
+
+gem 'BoardGameGem'
+gem 'select2-rails'
+gem 'acts_as_list'
+gem 'react-rails', '~> 1.7.0'
+gem 'paranoia'
+gem 'modernizr-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

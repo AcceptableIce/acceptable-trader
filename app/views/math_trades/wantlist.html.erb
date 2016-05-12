@@ -1,0 +1,4 @@
+<%= render layout: "trade_layout" do %>
+<h1>Manage Wantlist</h1>
+<%= react_component "Wantlist", trade: @trade, wants: @wantlist, items: @items %>
+<% end %>

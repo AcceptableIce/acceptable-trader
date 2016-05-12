@@ -1,32 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title><%= content_for?(:title) ? yield(:title) + " - " : "" %>Math Trade Manager</title>
+    <title><%= content_for?(:title) ? yield(:title) + " - " : "" %>Acceptable Trader</title>
 
     <%= stylesheet_link_tag    "application" %>
-    
-    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
 
   <body>
 		<div class="top-bar">
 			<div class="top-bar-title">
-		    <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
+		    <span class="responsive-menu-toggle" data-responsive-toggle="responsive-menu" data-hide-for="medium">
 		      <button class="menu-icon dark" type="button" data-toggle></button>
 		    </span>
-				<li class="menu-text"><%= link_to "Math Trade Manager", root_url%></li>
+				<li class="menu-text"><%= link_to "Acceptable Trader", root_url%></li>
 		  </div>
 			<div id="responsive-menu">
 			  <div class="top-bar-left">
-			    <ul class="dropdown menu" data-dropdown-menu>
+			    <ul class="dropdown menu" data-dropdown-menu data-click-open="false">
 				   
 			      <li>
 			        <a href="#">Trades</a>
-			        <ul class="menu vertical">
+			        <ul class="submenu menu vertical" data-submenu>
 				        <li><%= link_to "Trades I'm In", math_trades_path %></li>
 				        <li><%= link_to "Trades I'm Running", math_trades_path %></li>
 			          <li><%= link_to "All Trades", math_trades_path %></li>
@@ -69,7 +67,7 @@
 				<% @callouts.each do |callout| %>
 				<div class="callout top-alert <%= callout[:type] %>">
 					<p>
-						<%= callout[:message] %>
+						<%=raw callout[:message] %>
 					</p>
 				</div>
 				<% end %>
@@ -83,5 +81,6 @@
 		<footer class="row">
 			<%= "Environment: #{Rails.env}" %>
 		</footer>
+		<%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
   </body>
 </html>
