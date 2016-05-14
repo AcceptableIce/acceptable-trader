@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 ruby '2.3.0'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
 # Use SCSS for stylesheets
@@ -39,7 +38,7 @@ gem 'foundation-rails'
 gem 'foundation-datetimepicker-rails'
 gem 'foundation-icons-sass-rails'
 
-gem 'BoardGameGem'
+gem 'board-game-gem'
 gem 'select2-rails'
 gem 'acts_as_list'
 gem 'react-rails', '~> 1.7.0'
