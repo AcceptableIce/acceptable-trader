@@ -24,5 +24,9 @@ test:
   database: "mathtrades_test"
 
 production:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
   database: "mathtrades_prod"
+  host: localhost
+  username: rails
+  password: <%= ENV['APP_DATABASE_PASSWORD'] %>
