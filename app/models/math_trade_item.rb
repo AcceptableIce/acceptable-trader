@@ -1,5 +1,5 @@
 include BggHelper
-include BoardGameGem
+require 'BoardGameGem'
 
 class MathTradeItem < ActiveRecord::Base
 	belongs_to :user
