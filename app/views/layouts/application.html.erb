@@ -21,17 +21,19 @@
 			<div id="responsive-menu">
 			  <div class="top-bar-left">
 			    <ul class="dropdown menu" data-dropdown-menu data-click-open="false">
-				   
-			      <li>
-			        <a href="#">Trades</a>
-			        <ul class="submenu menu vertical" data-submenu>
-				        <li><%= link_to "Trades I'm In", math_trades_path %></li>
-				        <li><%= link_to "Trades I'm Running", math_trades_path %></li>
-			          <li><%= link_to "All Trades", math_trades_path %></li>
-			        </ul>
-			      </li>
-			      <li><a href="#">Two</a></li>
-			      <li><a href="#">Three</a></li>
+				   	<% if current_user.nil? %>
+							<li><%= link_to "All Trades", math_trades_path %></li>
+					  <% else %>
+				      <li>
+				        <a href="#">Trades</a>
+				        <ul class="submenu menu vertical" data-submenu>
+									<li><%= link_to "Trades I'm In", math_trades_path(filter: "participating") %></li>
+									<li><%= link_to "Trades I'm Running", math_trades_path(filter: "running") %></li>
+									<li><%= link_to "All Trades", math_trades_path %></li>
+				        </ul>
+				      </li>
+			      <% end %>
+						<li><%= link_to "Rules", rules_path %></li>
 			    </ul>
 			  </div>
 			  <div class="top-bar-right">
@@ -40,7 +42,7 @@
 				    <li>
 				    	<a href="#"> Welcome, <%= current_user.bgg_account %></a>
 				      <ul class="menu vertical">
-					      <li><a href="#">Account Settings</a></li>
+					      <li><%= link_to "Account Settings", settings_path %></li>
 					      <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
 				      </ul>
 				    </li>
@@ -78,8 +80,14 @@
 				<%= yield %>
 			</div>
 		</div>
-		<footer class="row">
-			<%= "Environment: #{Rails.env}" %>
+		<footer>
+			Built by <a href="http://www.boardgamegeek.com/user/acceptableice">AcceptableIce</a> 
+			(<a href="http://www.twitter.com/acceptableice">Twitter</a>)
+			<div class="footer-links">
+				<span class="footer-link">
+					<a href="/about">About</a>
+				</span>
+			</div>
 		</footer>
 		<%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
   </body>

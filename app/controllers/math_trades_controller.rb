@@ -1,9 +1,16 @@
 class MathTradesController < ApplicationController
-	before_filter :validate_ownership, only: [:confirm_delete, :edit, :update]
+	include MathTradesHelper
+	
+	before_filter :load_trade, :validate_access, except: [:new, :index, :create]
+	
+	before_filter :validate_ownership, only: [:confirm_delete, :edit, :update, :status, :save_status, :upload]
 	before_filter :validate_ownership_with_deleted, only: [:destroy]
+	before_filter :validate_is_before_wants_deadline, only: [:save_wantlist]
+	before_filter :validate_can_view_results, only: [:results]
+	before_filter :validate_trade_is_not_finalized, only: [:edit, :update, :confirm_delete, :destroy, :status, :save_status, :upload]
 	
 	def index
-		@trades = MathTrade.where(status: "active")
+		@trades = MathTrade.filter_by(params[:filter], current_user)
 	end
 	
 	def new
@@ -14,11 +21,19 @@ class MathTradesController < ApplicationController
 	end
 	
 	def show
-		@trade = MathTrade.find_by_id(params[:id])
+	end
+	
+	def results
+	end
+	
+	def raw_results
+	end
+	
+	def generate_wantlist
+		render plain: @trade.generate_wantlist
 	end
 	
 	def wantlist
-		@trade = MathTrade.find_by_id(params[:id])
 		@wantlist = @trade.get_user_wantlist(current_user).includes(:item).map do |x|
 			hash = x.as_json
 			bgg_item_data = BggHelper.get_item(x.item.bgg_item)
@@ -52,6 +67,12 @@ class MathTradesController < ApplicationController
 	def confirm_delete
 	end
 	
+	def status
+	end
+	
+	def upload
+	end
+	
 	def edit
 	end
 	
@@ -69,7 +90,6 @@ class MathTradesController < ApplicationController
 	end
 	
 	def update
-		@trade = MathTrade.find_by_id(params[:id])
 		if @trade.moderator_id != current_user.id
 			render :unauthorized
 		end
@@ -80,6 +100,32 @@ class MathTradesController < ApplicationController
 		end
 	end
 	
+	def save_status
+		case params[:status]
+		when "finalized"
+			if trade.results_list.nil? 
+				show_error "Trade cannot be finalized until a results list has been uploaded.", math_trade_path(@trade)
+			end
+			@trade.finalized_at = DateTime.now
+		when "pending"
+			if trade.results_list.nil?
+				show_error "Trade cannot be pending until a results list has been uploaded.", math_trade_path(@trade)
+			end
+		end
+		
+		@trade.status = params[:status]
+		@trade.save
+		flash[:notice] = @trade.name + " set to " + @trade.status + " mode."
+		redirect_to math_trade_path(@trade)
+	end
+	
+	def upload_results
+		@trade.results_list = params[:math_trade][:results_list].read
+		@trade.save
+		flash[:notice] = "Results uploaded."
+		redirect_to status_math_trade_path(@trade)
+	end
+	
 	def destroy
 		@trade.destroy
 		flash[:message] = "Trade deleted successfully."
@@ -87,7 +133,6 @@ class MathTradesController < ApplicationController
 	end
 		
 	def retrieve_items
-		@trade = MathTrade.find_by_id(params[:id])
 		items = @trade.items.includes(:wants)
 		items = items.map do |x| 
 			hash = x.as_json
@@ -135,7 +180,6 @@ class MathTradesController < ApplicationController
 	end
 	
 	def save_wantlist
-		@trade = MathTrade.find(params[:id])
 		grid = params[:grid]
 		wants_found = []
 		want_groups_found = []
@@ -196,6 +240,55 @@ class MathTradesController < ApplicationController
 	
 	private
 	
+	def load_trade
+		@trade = MathTrade.find_by_id(params[:id])
+	end
+	
+	def item_matches_phrases(item, phrases)
+		phrases.any? do |word|
+			(!item["alt_name"].nil? && item["alt_name"].downcase.include?(word)) || item["description"].downcase.include?(word) 
+		end
+	end
+	
+	def trade_params
+		params.require(:math_trade).permit(:name, :moderator_id, :description, :offer_deadline, :wants_deadline, :shipping, :discussion_thread)
+	end
+
+	def validate_ownership(with_deleted = false)
+		@trade = (with_deleted ? MathTrade.with_deleted : MathTrade).find(params[:id])
+		if @trade.moderator_id != current_user.id
+			show_error "You are not authorized to administer this trade."
+		end
+	end
+	
+	def validate_ownership_with_deleted
+		validate_ownership(true)
+	end
+	
+	def validate_is_before_wants_deadline
+		if @trade.wants_due?
+			show_error "This trade is no longer accepting wantlists.", math_trade_path(@trade)
+		end
+	end
+	
+	def validate_access
+		if @trade.status == "draft" && @trade.moderator_id != current_user.id
+			show_error "This trade is set to private.", math_trades_path
+		end
+	end
+	
+	def validate_can_view_results
+		if !@trade.can_view_results(current_user)
+			show_error "This trade does not have any results uploaded yet, or you do not have permission to view them.", math_trade_path(@trade)
+		end
+	end
+	
+	def validate_trade_is_not_finalized
+		if @trade.status == "finalized"
+			show_error "This trade has been finalized, and is not allowing any further changes.", math_trade_path(@trade)
+		end
+	end
+	
 	def add_bgg_data_to_hash(hash, bgg_item_data)
 		if !bgg_item_data.nil?
 			collection_data = current_user.get_item_from_collection(bgg_item_data.id)
@@ -223,26 +316,5 @@ class MathTradesController < ApplicationController
 			hash[:bgg_item_data] = nil
 		end
 		return hash
-	end
-	
-	def item_matches_phrases(item, phrases)
-		phrases.any? do |word|
-			(!item["alt_name"].nil? && item["alt_name"].downcase.include?(word)) || item["description"].downcase.include?(word) 
-		end
-	end
-	
-	def trade_params
-		params.require(:notice).permit(:name, :moderator_id, :description, :offer_deadline, :wants_deadline, :shipping, :discussion_thread)
-	end
-
-	def validate_ownership(with_deleted = false)
-		@trade = (with_deleted ? MathTrade.with_deleted : MathTrade).find(params[:id])
-		if @trade.moderator_id != current_user.id
-			show_error "You are not authorized to administer this trade."
-		end
-	end
-	
-	def validate_ownership_with_deleted
-		validate_ownership(true)
 	end
 end

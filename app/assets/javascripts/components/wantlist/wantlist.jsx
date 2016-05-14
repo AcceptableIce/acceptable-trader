@@ -34,9 +34,9 @@ var Wantlist = React.createClass({
 				<a className="button small info" onClick={this.toggleDuplicateProtection}>
 					{this.state.showDuplicateProtection ? "Hide" : "Show"} Duplicate Protection
 				</a>
-				<WantlistDuplicateProtection items={this.props.items} groups={this.state.groups} wantlist={this} visible={this.state.showDuplicateProtection}/>
+				<WantlistDuplicateProtection items={this.props.items} groups={this.state.groups} wantlist={this} visible={this.state.showDuplicateProtection} wants_due={this.props.wants_due}/>
 				{this.state.grid ? 
-				<WantlistGrid trade={this.props.trade} wants={this.getWants()} items={this.getItems()} />
+				<WantlistGrid trade={this.props.trade} wants={this.getWants()} items={this.getItems()} wants_due={this.props.wants_due} />
 				:
 				<WantlistSummary trade={this.props.trade} wants={this.getWants()} items={this.getItems()} />}
 			</div>

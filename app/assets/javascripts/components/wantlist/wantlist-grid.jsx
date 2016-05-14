@@ -97,8 +97,8 @@ var WantlistGrid = React.createClass({
 						{wants}
 					</tbody>
 				</table>
-				<a className="button large info" onClick={this.saveList} disabled={this.state.loading}>
-					{this.state.loading ? "Saving..." : "Save Wantlist" }
+				<a className="button large info" onClick={this.saveList} disabled={this.state.loading || this.props.wants_due}>
+					{this.props.wants_due ? "Wants deadline has passed." : (this.state.loading ? "Saving..." : "Save Wantlist")}
 				</a>			
 			</div>
 		);

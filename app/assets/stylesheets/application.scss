@@ -9,6 +9,36 @@
 @import "select2";
 /* Add imports of custom sass/scss files here */
 
+.no-js footer {
+	position: absolute;
+	bottom: 0;
+}
+
+footer {
+	background-color: #1a669f;
+	color: #fff;
+	margin: 0 0;
+	padding: 5px 10px;
+	width: 100%;
+}
+
+footer a {
+	color: #B4DBFF;
+}
+
+footer a:hover {
+	color: #fff;
+}
+
+.footer-links {
+	margin-left: 10px;
+	display: inline-block;
+}
+
+.footer-link {
+	margin-left: 10px;
+}
+
 .top-alert {
 	min-height: 20px;
 	padding: 0.2rem 1rem;
@@ -59,4 +89,30 @@
 
 .top-bar ul.submenu li:hover a {
 	background-color: #4488bc;
+}
+
+.row .center-row {
+	margin: 0 auto;
+	max-width: 1200px;
+}
+
+ol.rules-list {
+	margin-left: 30px;
+}
+.rules-list li,
+.rules-list h4 {
+	font-size: 28px;
+}
+
+.rules-list p{
+	font-size: 16px;
+}
+
+.rules-list h6 {
+	font-size: 18px;
+	font-weight: 800;
+}
+
+a {
+	color: #1a669f;
 }

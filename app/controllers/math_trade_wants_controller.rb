@@ -1,5 +1,5 @@
 class MathTradeWantsController < ApplicationController
-	before_filter :load_trade
+	before_filter :load_trade, :validate_is_before_wants_deadline
 	def create
 		params[:math_trade_want][:math_trade_id] = @trade.id
 		params[:math_trade_want][:user_id] = current_user.id
@@ -30,4 +30,11 @@ class MathTradeWantsController < ApplicationController
 	def load_trade
 		@trade = MathTrade.find(params[:math_trade_id])
 	end
+		
+	def validate_is_before_wants_deadline
+		if @trade.wants_due?
+			render json: { error: true, message: "Wants deadline has passed." }
+		end
+	end
+	
 end

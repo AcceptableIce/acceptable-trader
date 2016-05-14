@@ -8,6 +8,8 @@ class MathTradeItem < ActiveRecord::Base
 	
 	has_many :wants, class_name: "MathTradeWant"
 		
+	has_many :wanted_by_items, through: :wants, source: :want_items
+	
 	validate :name_is_set, :check_linked_items
 	
 	def to_bgg_item

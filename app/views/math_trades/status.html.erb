@@ -1,0 +1,26 @@
+<%= render layout: "trade_layout" do %>
+	<h1 class="trade-title">Manage Trade Status</h1>
+	<h3><small>For trade: <%= @trade.name %></small></h3>
+	<hr />
+	<strong><%= @trade.name %> is currently in <%= @trade.status.capitalize %> mode.</strong>
+	<p>
+		<%= MathTrade.get_status_description(@trade.status) %>
+	</p>
+	<hr />
+	<% if @trade.status == "finalized" %>
+		<b>This trade has been finalized, and no more changes can be made to it.</b>
+	<% else %>
+		<% MathTrade.statuses.each do |status| %>
+			<h5><%= status[0].capitalize %></h5>
+			<p><%= MathTrade.get_status_description(status[0]) %></p>
+			<% if (status[0] == "pending" || status[0] == "finalized") && @trade.results_list.nil? %>
+				<p class="callout alert">
+					Trades cannot be set to <%= status[0].capitalize %> until a results list has been uploaded.
+				</p>
+				<% button_format = "disabled" %>
+			<% end %>
+			
+			<%= link_to "Enable " + status[0].capitalize + " Mode", save_status_math_trade_path(@trade, status: status[0]), method: :post, class: "button small #{button_format}" %>
+		<% end %>
+	<% end %>
+<% end %>

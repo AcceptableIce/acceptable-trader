@@ -2,29 +2,46 @@
 <div class="row">
 	<div class="medium-3 large-2 columns">
 		<ul class="vertical menu trade-nav" id="trade-menu">
-			<li><a href="<%= base_url %>">Home</a></li>
+			<li><%= link_to "Home", math_trade_path(@trade) %></li>
+			
       <li class="trade-nav-title">My Listings</li>
-      <li><a href="<%= base_url %>/items/new">List a New Item</a></li>
-      <li><a href="<%= base_url %>/items?filter=me">My Listings</a></li>
+      <% if !(@trade.offers_due? || @trade.status != "active") %>
+     	 <li><%= link_to "List a New Item", new_math_trade_math_trade_item_path(@trade) %></li>
+     	<% end %>
+      <li><%= link_to "My Listings", math_trade_math_trade_items_path(@trade, filter: "me") %></li>
           
       <li class="trade-nav-title">My Wants</li>
-      <li><a href="<%= base_url %>/items">Add Items to Wantlist</a></li>
-      <li><a href="<%= base_url %>/wantlist">Manage Wantlist</a></li>
-    
+      <% if !(@trade.wants_due? || @trade.status != "active") %>
+      	<li><%= link_to "Add Items to Wantlist", math_trade_math_trade_items_path(@trade) %></li>
+      <% end %>
+			<li><%= link_to (@trade.wants_due? || @trade.status != "active") ? "View Wantlist": "Manage Wantlist", manage_wantlist_math_trade_path(@trade) %></li>
+			
       <li class="trade-nav-title">Filter</li>
-      <li><a href="<%= base_url %>/items?filter=wishlist">On Wishlist</a></li>
-      <li><a href="<%= base_url %>/items?filter=wantintrade">On Want-In-Trade List</a></li>
-			<li><a href="<%= base_url %>/items?filter=wanttobuy">On Want-To-Buy List</a></li>
-      <li><a href="<%= base_url %>/items?filter=owned">Items I Already Own</a></li>
-      <li><a href="<%= base_url %>/items?filter=giftcertificate">Gift Certificates</a></li>
-      <li><a href="<%= base_url %>/items?filter=geekgold">GeekGold</a></li>
-			<li><a href="<%= base_url %>/items?filter=cash">Cash</a></li>
-
+      <li><%= link_to "On My Wishlist", math_trade_math_trade_items_path(@trade, filter: "wishlist") %></li>
+      <li><%= link_to "Want In Trade", math_trade_math_trade_items_path(@trade, filter: "wantintrade") %></li>
+      <li><%= link_to "Want To Buy", math_trade_math_trade_items_path(@trade, filter: "wanttobuy") %></li>
+      <li><%= link_to "Items I Already Own", math_trade_math_trade_items_path(@trade, filter: "owned") %></li>
+      <li><%= link_to "Gift Certificates", math_trade_math_trade_items_path(@trade, filter: "giftcertificate") %></li>
+      <li><%= link_to "Geek Gold", math_trade_math_trade_items_path(@trade, filter: "geekgold") %></li>
+      <li><%= link_to "Cash", math_trade_math_trade_items_path(@trade, filter: "cash") %></li>
+			
+			<% if @trade.can_view_results(current_user) %>
+				<li class="trade-nav-title">Results</li>
+	      <li><%= link_to "View Results", results_math_trade_path(@trade) %></li>
+	      <li><%= link_to "Raw Results", raw_results_math_trade_path(@trade) %></li>
+			<% end %>
+			
 			<% if @trade.moderator_id == current_user.id %>
 	      <li class="trade-nav-title">Administration</li>
-	      <li><%= link_to "Edit Trade Info", edit_math_trade_path(@trade) %></li>
-	      <li><a href="typography-base.html">Manage Trade Status</a></li>
-	      <li><a href="<%= base_url %>/confirm_delete">Delete Trade</a></li>
+	      <% if @trade.status != "finalized" %>
+	     		<li><%= link_to "Edit Trade Info", edit_math_trade_path(@trade) %></li>
+			 		<li><%= link_to "Manage Trade Status", status_math_trade_path(@trade) %></li>
+	      <% end %>
+	      <li><%= link_to "Generate Wantlist", generate_wantlist_math_trade_path(@trade) %></li>
+				<% if @trade.status != "finalized" %>
+	      	<li><%= link_to "Upload Results", upload_math_trade_path(@trade) %></li>
+					<li><%= link_to "Delete Trade", confirm_delete_math_trade_path(@trade) %></li>
+	      <% end %>
       <% end %>
     </ul>
 	</div>

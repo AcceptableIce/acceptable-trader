@@ -5,6 +5,11 @@ Rails.application.routes.draw do
   }
    
   root "welcome#index"
+  
+  get "rules" => "welcome#rules", as: :rules
+  get "about" => "welcome#about", as: :about
+  
+  get "settings" => "users/settings#index", as: :settings
 	
 	resources :bgg do
 		get :verify_user_account, on: :collection
@@ -17,9 +22,19 @@ Rails.application.routes.draw do
 		resources :math_trade_wants, path: 'wants'
 		resources :want_groups, path: 'groups'
 		
-		get :retrieve_items, on: :member
-		get :wantlist, on: :member, as: :manage_wantlist
-		get :confirm_delete, on: :member
-		post :save_wantlist, on: :member
+		member do		
+			get :retrieve_items
+			get :wantlist, as: :manage_wantlist
+			get :confirm_delete
+			get :status
+			get :upload
+			get :results
+			get :raw_results
+			get :generate_wantlist
+			
+			post :save_wantlist
+			post :save_status
+			patch :upload_results
+		end
 	end
 end

@@ -1,0 +1,41 @@
+<% display_order = ["draft", "pending", "active", "finalized"] %>
+<% display_order.each do |status| %>
+	<% if @trades[status] %>
+		<h3><%= status.capitalize %></h3>
+		<% if !@trades[ status].nil? %>
+			<% @trades[status].each do |trade| %>
+				<div class="trade-list-item">
+					<div class="trade-list-header">
+						<div class="trade-list-title">
+							<% if current_user.nil? %>
+							 <%= trade.name %>
+							<% else %>
+								<%= link_to trade.name, math_trade_path(trade) %>
+							<% end %>
+						</div>
+						<div class="trade-list-data">
+							<span class="label success"><%= trade.items.count %> items</span>									
+							<span class="label info"><%= trade.users_in_trade.count %> users</span>
+						</div>
+					</div>
+					<div class="trade-list-owner">
+						A trade by 
+						<a href="http://www.boardgamegeek.com/user/<%= trade.moderator.bgg_account %>">
+							<%= trade.moderator.bgg_account %>
+						</a>
+					</div>
+					<div class="trade-list-deadlines">
+						<% if trade.status == "finalized" %>
+							Trade ended on <%= trade.finalized_at %>.
+						<% elsif trade.status != "draft" %>
+							Offers are due <%= trade.offers_due? ? "" : "in " + distance_of_time_in_words_to_now(trade.offer_deadline) %>.<br>
+							Wants are due <%= trade.offers_due? ? "" : "in " + distance_of_time_in_words_to_now(trade.offer_deadline) %>.
+						<% else %>
+							<b>Draft mode.</b>
+						<% end %>
+					</div>
+				</div>
+			<% end %>
+		<% end %>
+	<% end %>
+<% end %>

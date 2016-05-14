@@ -22,11 +22,11 @@
 	<div class="row small-collapse">
 		<div class="small-5 columns">
 			<%= form.label :offer_deadline %>
-			<%= form.text_field :offer_deadline, class: "datetime-picker", value: @trade.offer_deadline.strftime("%Y-%m-%d %H:%M:%S") %>
+			<%= form.text_field :offer_deadline, class: "datetime-picker", value: @trade.offer_deadline ? @trade.offer_deadline.strftime("%Y-%m-%d %H:%M:%S") : "" %>
 		</div>
 		<div class="small-5 columns">
 			<%= form.label :wants_deadline %>
-			<%= form.text_field :wants_deadline, class: "datetime-picker", value: @trade.wants_deadline.strftime("%Y-%m-%d %H:%M:%S") %>
+			<%= form.text_field :wants_deadline, class: "datetime-picker", value: @trade.offer_deadline ? @trade.wants_deadline.strftime("%Y-%m-%d %H:%M:%S") : "" %>
 		</div>
 	</div>
 	

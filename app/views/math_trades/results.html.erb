@@ -1,0 +1,34 @@
+<%= render layout: "trade_layout" do %>
+	<h1 class="trade-title">Results: <%= @trade.name %></h1>
+	<hr>
+	<% if @trade.get_results[:error] %>
+	<p>
+		<%= @trade.get_results[:message] %>
+	</p>
+	<% else %>
+		<% @trade.users_in_trade.each do |user| %>
+			<h4><%= user.bgg_account %></h4>
+			<h5>Receive</h5>
+			<% @trade.get_results[:receiving][user.id].each do |result| %>
+				<p>
+					<%= link_to result.to_bgg_item.name, math_trade_math_trade_item_path(@trade, result) %>
+					from
+					<a href="http://www.boardgamegeek.com/user/<%= result.user.bgg_account %>">
+						<%= result.user.bgg_account %>
+					</a>
+				</p>
+			<% end %>
+			<h5>Send</h5>
+			<% @trade.get_results[:sending][user.id].each do |result| %>
+				<% user = User.find(result[:to]) %>
+				<p>
+					<%= link_to result[:item].to_bgg_item.name, math_trade_math_trade_item_path(@trade, result[:item]) %>
+					to 
+					<a href="http://www.boardgamegeek.com/user/<%= user.bgg_account %>">
+						<%= user.bgg_account %>
+					</a>
+				</p>
+			<% end %>
+		<% end %>
+	<% end %>
+<% end %>

@@ -1,0 +1,5 @@
+<%= render layout: "trade_layout" do %>
+	<h1 class="trade-title">Results File for <%= @trade.name %></h1>
+	<hr />
+	<pre class="results-raw"><%= @trade.results_list %></pre>
+<% end %>

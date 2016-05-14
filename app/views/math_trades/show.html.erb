@@ -6,21 +6,52 @@
 	<p>
 		Created <%= distance_of_time_in_words_to_now @trade.created_at %> ago.
 	</p>
+	
+	<% case @trade.status %>
+	<% when "draft" %>
+	<div class="callout warning">
+		<strong>This trade is in Draft mode.</strong><br>
+		It isn't publicly listed, so feel free to make changes.
+	</div>
+	<% when "pending" %>
+	<div class="callout primary">
+		<strong>This trade has pending results.</strong><br>
+		Preliminary results have been posted. 
+		<%= link_to "Feel free to check them out now.", results_math_trade_path(@trade) %><br>
+		<strong>Do not ship until the trade has been finalized.</strong>
+	</div>
+	<% when "finalized" %>
+	<div class="callout success">
+		<strong>This trade has been finalized.</strong>
+		<% if @trade.users_in_trade.include?(current_user) %>
+			<br>Thanks for joining!
+		<% end %>
+	</div>
+	<% end %>
+	
 	<p class="row">
 		<div class="small-6 columns center">
 			<h5>
-				Offers are due in <%= distance_of_time_in_words_to_now @trade.offer_deadline %>. 
-				<div class="due-date-exact">
-					(<%= @trade.offer_deadline %>)
-				</div>
+				<% if @trade.offers_due? %>
+					Offers are due!
+				<% else %>
+					Offers are due in <%= distance_of_time_in_words_to_now @trade.offer_deadline %>. 
+					<div class="due-date-exact">
+						(<%= @trade.offer_deadline %>)
+					</div>
+				<% end %>
 			</h5>
 		</div>
 		<div class="small-6 columns center">
 			<h5>
-				Wants are due in <%= distance_of_time_in_words_to_now @trade.wants_deadline %>.
-				<div class="due-date-exact">
-					(<%= @trade.offer_deadline %>)
-				</div>
+				<% if @trade.wants_due? %>
+					Wants are due!
+				<% else %>
+					Wants are due in <%= distance_of_time_in_words_to_now @trade.wants_deadline %>.
+					<div class="due-date-exact">
+						(<%= @trade.wants_deadline %>)
+					</div>
+				<% end %>
 			</h5>
 		</div>
 	</p>

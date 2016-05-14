@@ -28,7 +28,7 @@ var WantlistRow = React.createClass({
 				<a href={"/trades/" + this.props.trade.id + "/items/" + this.props.data.item_id}>
 					{this.props.data.alt_name ? this.props.data.alt_name : this.props.data.bgg_item_data.name}
 				</a>
-				<a className="button tiny alert wantlist-row-remove" onClick={this.props.removeRow}>Remove</a>
+				<a className="button tiny alert wantlist-row-remove" onClick={this.props.removeRow}>&times;</a>
 			</td>
 		}
 		return (

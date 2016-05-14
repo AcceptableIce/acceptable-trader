@@ -1,8 +1,33 @@
-<% if current_user %>
-	<p>
-		<b>Owned</b><br>
-		<%= current_user.get_collection.get_owned.map { |x| x.name }.to_sentence %>
-	</p>
-<% else %>
-	Please log in to see options.
-<% end %>
+<div class="row">
+	<div class="row center-row">
+		<% if current_user %>
+			<%= render "math_trades/trade_list" %>
+		<% else %>
+			<h1>Welcome to Acceptable Trader</h1>
+			<h4><strong>What is Acceptable Trader?</strong></h4>
+			<p>
+				Acceptable Trader is a tool to run and participate in 
+				<a href="http://boardgamegeek.com/wiki/page/Math_Trades">board game math trades</a>,
+				a specific type of trade in which an algorithm is used to maximize the number of
+				people trading.	
+			</p>
+			<h4><strong>Why Math Trades?</strong></h4>
+			<p>
+				Finding someone who wants to trade one thing for exactly the other thing you want
+				is difficult, but finding someone who wants your thing at all isn't very hard.
+				By chaining trades together, you no longer needs to find someone who's willing to trade
+				A for B; instead, you find someone who's willing to find A for B, and they find someone
+				who's willing to find B for C, and so forth, until it loops back around to you.
+			</p>
+			<h4><strong>How do I start?</strong></h4>
+			First off, make an <%= link_to "account", new_user_registration_path %>. You'll need a
+			<a href="http://boardgamegeek.com/">BoardGameGeek account</a> to register. Once you've done so,
+			we'll send a confirmation GeekMail to you. Once you've clicked the link in that message, you're free
+			to join any trade you see, as long as you follow the rules listed in that trade and the
+			<a href="/rules">AcceptableTrader site rules</a>.<br><br>
+			If you're new to math trading as a whole, make sure you watch one of the
+			<a href="https://www.reddit.com/r/boardgames/comments/3e779n/math_trade_video_tutorials_that_help_me_out/">
+				many math trade tutorials</a>.
+		<% end %>
+	</div>
+</div>

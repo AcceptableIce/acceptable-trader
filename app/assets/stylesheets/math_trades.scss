@@ -126,3 +126,39 @@
 	z-index: 15;
 	position: absolute;
 }
+
+.results-raw {
+	font-size: 12px;
+	overflow-x: auto;
+}
+
+.trade-list-item {
+	border: 1px solid #ccc;
+	padding: 5px 10px;
+	margin-bottom: 5px;
+	background-color: #fafafa;
+}
+
+.trade-list-item a {
+	color: #1a669f;
+}
+
+.trade-list-title {
+	font-size: 1.5em;
+	display: inline-block;
+}
+
+.trade-list-data {
+	display: inline-block;
+  position: relative;
+  left: 10px;
+  top: -4px;
+}
+
+.trade-list-owner {
+	font-size: 1.1em;
+}
+
+.trade-list-deadlines {
+	
+}

@@ -23,4 +23,21 @@
 
 $(function(){ 
 	$(document).foundation(); 
+	fixFooter(-10);
 });
+
+$(window).resize(function() {
+  fixFooter(0);
+});
+
+function fixFooter(offset) {
+  footer = $("footer");
+  height = footer.height();
+  paddingTop = parseInt(footer.css('padding-top'), 10);
+  paddingBottom = parseInt(footer.css('padding-bottom'), 10);
+  totalHeight = (height + paddingTop + paddingBottom);
+  footerPosition = footer.position();
+  windowHeight = $(window).height() - offset;
+  height = (windowHeight - footerPosition.top) - totalHeight;
+  if ( height > 0 ) footer.css({ 'margin-top': (height) + 'px' });
+}

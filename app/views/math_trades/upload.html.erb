@@ -1,0 +1,16 @@
+<%= render layout: "trade_layout" do %>
+	<h1 class="trade-title">Upload Results to <%= @trade.name %></h1>
+	<hr />
+	<p>
+		Result list file should be unmodified from the TradeMaximizer output.<br>
+		Acceptable Trader recommends TradeMaxmizer 1.4, but 1.3 should work as well.
+	</p>
+	<%= form_for @trade, url: upload_results_math_trade_path do |f| %>
+		<p>
+			<%= f.file_field :results_list %>
+		</p>
+		<p>
+			<%= f.submit "Upload Results", class: "button" %>
+		</p>
+	<% end %>
+<% end %>

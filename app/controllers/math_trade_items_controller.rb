@@ -1,5 +1,7 @@
 class MathTradeItemsController < ApplicationController
 	before_filter :load_trade
+	before_filter :validate_is_before_offers_deadline, only: [:new, :edit, :create, :update, :destroy]
+	
 	def index
 	end
 	
@@ -56,5 +58,11 @@ class MathTradeItemsController < ApplicationController
 	
 	def load_trade
 		@trade = MathTrade.find(params[:math_trade_id])
+	end
+	
+	def validate_is_before_offers_deadline
+		if @trade.offers_due?
+			show_error "This trade is no longer accepting offers.", math_trade_path(@trade)
+		end
 	end
 end

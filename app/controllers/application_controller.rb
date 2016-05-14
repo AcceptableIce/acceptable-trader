@@ -9,8 +9,8 @@ class ApplicationController < ActionController::Base
 	
 	protected 
 	
-	def show_error(message)
-    redirect_to root_url, flash: { "callouts": [{ type: "alert", message: message }]}
+	def show_error(message, route = root_url)
+    redirect_to route, flash: { "callouts": [{ type: "alert", message: message }]}
 	end
 	
 	def add_callout(type, message)

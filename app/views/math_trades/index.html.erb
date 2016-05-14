@@ -1,4 +1,15 @@
-<h1>Active Trades</h1>
-<% @trades.each do |trade| %>
-	<%= link_to trade.name, trade %>
-<% end %>
+<div class="row center-row">
+	<div class="small-12">
+		<h1>
+			<% case params[:filter] %>
+			<% when "participating" %>
+				Trades I'm Participating In
+			<% when "running" %>
+				Trades I'm Running
+			<% when nil %>
+				All Trades
+			<% end %>
+		</h1>
+		<%= render "trade_list" %>
+	</div>
+</div>
