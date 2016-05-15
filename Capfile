@@ -23,6 +23,7 @@ require 'capistrano/rvm'
 require 'capistrano/bundler'
 require 'capistrano/rails'
 require 'capistrano/linked_files'
+require 'capistrano3/unicorn'
 
 #require 'capistrano/rails/assets'
 #require 'capistrano/rails/migrations'
