@@ -31,7 +31,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'unicorn'
 
 # Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
 
 gem 'devise'
 gem 'foundation-rails'
@@ -43,11 +42,15 @@ gem 'acts_as_list'
 gem 'react-rails', '~> 1.7.0'
 gem 'paranoia'
 gem 'modernizr-rails'
-gem 'capistrano'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'capistrano', '~> 3.1'
+  gem 'capistrano-rails', '~> 1.1'
+  gem 'capistrano-rvm'
+  gem 'capistrano-unicorn'
+  gem 'capistrano-linked-files'
 end
 
 group :development do
