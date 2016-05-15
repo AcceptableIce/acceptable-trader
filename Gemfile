@@ -42,8 +42,7 @@ gem 'acts_as_list'
 gem 'react-rails', '~> 1.7.0'
 gem 'paranoia'
 gem 'modernizr-rails'
-
-gem 'unicorn'
+gem 'puma'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -51,8 +50,8 @@ group :development, :test do
   gem 'capistrano', '~> 3.1'
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-rvm'
-  gem 'capistrano3-unicorn'
   gem 'capistrano-linked-files'
+  gem 'capistrano3-puma'
 end
 
 group :development do
