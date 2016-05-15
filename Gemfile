@@ -37,7 +37,6 @@ gem 'devise'
 gem 'foundation-rails'
 gem 'foundation-datetimepicker-rails'
 gem 'foundation-icons-sass-rails'
-
 gem 'board-game-gem'
 gem 'select2-rails'
 gem 'acts_as_list'
