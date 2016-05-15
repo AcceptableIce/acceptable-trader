@@ -24,7 +24,7 @@ require 'capistrano/bundler'
 require 'capistrano/rails'
 require 'capistrano/linked_files'
 require 'capistrano/puma'
-require 'capistrano/puma/nginx'   # if you want to upload a nginx site template
+# require 'capistrano/puma/nginx'   # if you want to upload a nginx site template
 
 #require 'capistrano/rails/assets'
 #require 'capistrano/rails/migrations'

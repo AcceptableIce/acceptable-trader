@@ -18,6 +18,7 @@ stdout_path "#{app_dir}/log/unicorn.stdout.log"
 # Set master PID location
 pid "#{app_dir}/tmp/pids/unicorn.pid"
 
+
 before_fork do |server, worker|
   # the following is highly recomended for Rails + "preload_app true"
   # as there's no need for the master process to hold a connection
