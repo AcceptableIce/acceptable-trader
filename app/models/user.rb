@@ -42,8 +42,8 @@ class User < ActiveRecord::Base
 		
 		link = "http://trade.acceptableice.com/bgg/verify_user_account?key=#{code}"
 		BggHelper.send_mail_to_user(BoardGameGem.get_user(bgg_account),
-			"Link your BGG Account to Math Trade Manager",
-			"Heya, #{bgg_account}.\n\nWe've gotten a request to link your BGG account with the Math Trade Manager. " +
+			"Link your BGG Account to Acceptable Trader",
+			"Heya, #{bgg_account}.\n\nWe've gotten a request to link your BGG account with Acceptable Trader. " +
 			"Just click the link below and we'll wire it all up.\n\n
 			#{link}\n\n
 			Thanks,\n
