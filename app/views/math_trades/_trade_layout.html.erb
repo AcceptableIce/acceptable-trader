@@ -29,6 +29,7 @@
 				<li class="trade-nav-title">Results</li>
 	      <li><%= link_to "View Results", results_math_trade_path(@trade) %></li>
 	      <li><%= link_to "Raw Results", raw_results_math_trade_path(@trade) %></li>
+	      <li><%= link_to "Who Wanted Mine", who_wanted_mine_math_trade_path(@trade) %></li>
 			<% end %>
 			
 			<% if @trade.moderator_id == current_user.id %>

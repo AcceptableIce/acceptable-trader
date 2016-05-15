@@ -20,6 +20,10 @@ class MathTradeItem < ActiveRecord::Base
 		end
 	end
 	
+	def wanted_by
+		return math_trade.wants.select {|x| x.math_trade_item_id == id }
+	end
+	
 	def get_linked_items
 		linked_items = {}
 		description.gsub(/\[item(=(.*?))?\]/) do |match|

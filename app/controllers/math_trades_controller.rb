@@ -29,6 +29,9 @@ class MathTradesController < ApplicationController
 	def raw_results
 	end
 	
+	def who_wanted_mine
+	end
+	
 	def generate_wantlist
 		render plain: @trade.generate_wantlist
 	end
@@ -103,12 +106,12 @@ class MathTradesController < ApplicationController
 	def save_status
 		case params[:status]
 		when "finalized"
-			if trade.results_list.nil? 
+			if @trade.results_list.nil? 
 				show_error "Trade cannot be finalized until a results list has been uploaded.", math_trade_path(@trade)
 			end
 			@trade.finalized_at = DateTime.now
 		when "pending"
-			if trade.results_list.nil?
+			if @trade.results_list.nil?
 				show_error "Trade cannot be pending until a results list has been uploaded.", math_trade_path(@trade)
 			end
 		end

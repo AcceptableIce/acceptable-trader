@@ -159,6 +159,11 @@
 	font-size: 1.1em;
 }
 
-.trade-list-deadlines {
-	
+.traded {
+	color: #999;
+	font-style: italic;
+}
+
+.traded + p {
+	color: #999;
 }

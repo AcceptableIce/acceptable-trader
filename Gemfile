@@ -52,6 +52,8 @@ group :development, :test do
   gem 'capistrano-rvm'
   gem 'capistrano-linked-files'
   gem 'capistrano3-puma'
+  gem 'capistrano-rails-tail-log'
+
 end
 
 group :development do

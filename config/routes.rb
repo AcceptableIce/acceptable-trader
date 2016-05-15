@@ -31,6 +31,7 @@ Rails.application.routes.draw do
 			get :results
 			get :raw_results
 			get :generate_wantlist
+			get :who_wanted_mine
 			
 			post :save_wantlist
 			post :save_status

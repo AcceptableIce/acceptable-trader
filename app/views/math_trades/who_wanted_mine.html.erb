@@ -1,0 +1,25 @@
+<%= render layout: "trade_layout" do %>
+<h1>Who Wanted Mine?</h1>
+<hr>
+<% if @trade.get_results[:error] %>
+	<p>
+		An error occurred: <%= @trade.get_results[:message] %>
+	</p>
+<% else %>
+	<p>
+		Items in <span class="traded">gray</span> traded successfully.
+	</p>
+	
+	<% @trade.items_from_user(current_user).each do |item| %>
+		<h4 class="<%= item.did_trade ? "traded" : "" %>"><%= item.to_bgg_item.name %></h4>
+		<p>
+			<% item.wanted_by.each do |want| %>
+				<% want_data = want.want_items.map {|x| x.math_trade_item.to_bgg_item.name } %>
+				<% if want_data.length > 0 %>
+					<%= want.user.bgg_account %> offered: <%= want_data.to_sentence %><br>
+				<% end %>
+			<% end %>
+		</p>
+	<% end %>
+<% end %>
+<% end %>
