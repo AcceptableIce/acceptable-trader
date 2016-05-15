@@ -13,6 +13,7 @@
 
 /config/environments/*
 /config/secrets.yml
+/config/initializers/devise.rb
 
 # Ignore all logfiles and tempfiles.
 /log/*
