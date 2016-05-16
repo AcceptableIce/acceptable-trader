@@ -33,7 +33,12 @@ class User < ActiveRecord::Base
 	end
 	
 	def get_item_from_collection(id)
-		return get_collection.items.select { |x| x.id == id}
+		collection = get_collection
+		if !get_collection.nil?
+			items.select { |x| x.id == id}
+		else
+			nil
+		end
 	end
 	
 	def send_verification_message

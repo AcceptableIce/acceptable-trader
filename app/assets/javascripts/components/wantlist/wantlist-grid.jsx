@@ -7,7 +7,6 @@ var WantlistGrid = React.createClass({
 			for(var itemIndex in this.props.items) {
 				var item = this.props.items[itemIndex];
 				if(item.is_group && !want.is_group) {
-					console.log(item.want_links, want.id, want);
 					row.push(item.want_links.indexOf(want.id) !== -1)
 				} else if(item.is_group && want.is_group) {
 					row.push(false);

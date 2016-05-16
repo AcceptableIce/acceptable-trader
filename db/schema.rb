@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160513220519) do
+ActiveRecord::Schema.define(version: 20160516002407) do
 
   create_table "math_trade_items", force: :cascade do |t|
     t.integer  "bgg_item",      limit: 4,     default: -1,    null: false
@@ -27,6 +27,16 @@ ActiveRecord::Schema.define(version: 20160513220519) do
 
   add_index "math_trade_items", ["math_trade_id"], name: "index_math_trade_items_on_math_trade_id", using: :btree
   add_index "math_trade_items", ["user_id"], name: "index_math_trade_items_on_user_id", using: :btree
+
+  create_table "math_trade_want_confirmations", force: :cascade do |t|
+    t.integer  "math_trade_id", limit: 4, null: false
+    t.integer  "user_id",       limit: 4, null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "math_trade_want_confirmations", ["math_trade_id"], name: "index_math_trade_want_confirmations_on_math_trade_id", using: :btree
+  add_index "math_trade_want_confirmations", ["user_id"], name: "index_math_trade_want_confirmations_on_user_id", using: :btree
 
   create_table "math_trade_want_items", force: :cascade do |t|
     t.integer  "math_trade_want_id", limit: 4, null: false
@@ -124,6 +134,8 @@ ActiveRecord::Schema.define(version: 20160513220519) do
 
   add_foreign_key "math_trade_items", "math_trades"
   add_foreign_key "math_trade_items", "users"
+  add_foreign_key "math_trade_want_confirmations", "math_trades"
+  add_foreign_key "math_trade_want_confirmations", "users"
   add_foreign_key "math_trade_want_items", "math_trade_items"
   add_foreign_key "math_trade_want_items", "math_trade_wants"
   add_foreign_key "math_trade_wants", "math_trade_items"

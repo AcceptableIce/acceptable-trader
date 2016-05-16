@@ -5,9 +5,9 @@ class MathTradesController < ApplicationController
 	
 	before_filter :validate_ownership, only: [:confirm_delete, :edit, :update, :status, :save_status, :upload]
 	before_filter :validate_ownership_with_deleted, only: [:destroy]
-	before_filter :validate_is_before_wants_deadline, only: [:save_wantlist]
+	before_filter :validate_is_before_wants_deadline, only: [:save_wantlist, :confirm_wants]
 	before_filter :validate_can_view_results, only: [:results]
-	before_filter :validate_trade_is_not_finalized, only: [:edit, :update, :confirm_delete, :destroy, :status, :save_status, :upload]
+	before_filter :validate_trade_is_not_finalized, only: [:edit, :update, :confirm_delete, :destroy, :status, :save_status, :upload, :save_wantlist, :confirm_wants]
 	
 	def index
 		@trades = MathTrade.filter_by(params[:filter], current_user)
@@ -127,6 +127,11 @@ class MathTradesController < ApplicationController
 		@trade.save
 		flash[:notice] = "Results uploaded."
 		redirect_to status_math_trade_path(@trade)
+	end
+	
+	def confirm_wants
+		@trade.math_trade_want_confirmations.create(user_id: current_user.id)
+		render json: { error: false, message: "Saved successfully." }	
 	end
 	
 	def destroy
@@ -313,7 +318,7 @@ class MathTradesController < ApplicationController
 					weight: bgg_item_data.statistics[:average_weight],
 					rank: bgg_item_data.statistics[:ranks][0]
 				},
-				collection: collection_data.length > 0 ? collection_data[0].status : nil
+				collection: collection_data && collection_data.length > 0 ? collection_data[0].status : nil
 			}
 		else
 			hash[:bgg_item_data] = nil

@@ -4,6 +4,7 @@ class MathTrade < ActiveRecord::Base
 	has_many :items, -> {order 'position asc' }, class_name: "MathTradeItem"
 	has_many :wants, class_name: "MathTradeWant"
 	has_many :want_groups
+	has_many :math_trade_want_confirmations
 	
 	acts_as_paranoid
 	
@@ -36,8 +37,16 @@ class MathTrade < ActiveRecord::Base
 		return DateTime.now > wants_deadline
 	end
 	
+	def confirmed_users
+		return math_trade_want_confirmations.map { |x| x.user }
+	end
+	
 	def can_view_results(user)
 		!results_list.nil? && (status == "pending" || status == "finalized" || moderator_id == user.id)
+	end
+	
+	def user_confirmation(user)
+		return math_trade_want_confirmations.where(user_id: user.id).first
 	end
 	
 	def generate_wantlist	
@@ -84,8 +93,8 @@ class MathTrade < ActiveRecord::Base
 		
 		wantlist += "!END-OFFICIAL-NAMES\n\n\n"
 		
-		wants.group_by(&:user_id).each do |user_id, wants|
-			user = User.find(user_id)
+		confirmed_users.each do |user|
+			wants = get_user_wantlist(user)
 			group_codes = {}
 			group_links_by_code = {}
 			group_strings = get_user_groups(user).map do |group|
@@ -135,8 +144,7 @@ class MathTrade < ActiveRecord::Base
 					#{group_strings_out}			
 					#{want_strings.join("\n\n")}\n\n
 				USERLIST
-		end	
-		
+		end
 		wantlist +=
 			<<~FOOTER
 				# This is the end of the wantfile. If you do not see this line on future exports,

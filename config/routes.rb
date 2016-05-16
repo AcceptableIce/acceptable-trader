@@ -33,6 +33,7 @@ Rails.application.routes.draw do
 			get :generate_wantlist
 			get :who_wanted_mine
 			
+			post :confirm_wants
 			post :save_wantlist
 			post :save_status
 			patch :upload_results
