@@ -41,7 +41,6 @@ var TradeItemAdd = React.createClass({
 				allowed_items: allowed_items
 			},
 			success: function(data) {
-				console.log(data);
 				close_action();
 			}.bind(this),
 			error: function(xhr, status, error) {
