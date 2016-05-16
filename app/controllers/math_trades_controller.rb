@@ -174,11 +174,11 @@ class MathTradesController < ApplicationController
 				end
 			when "geekgold"
 				items.select do |x| 
-					item_matches_phrases(x, ["geek gold", "geekgold", "gg"])
+					item_matches_phrases(x, ["geek gold", "geekgold", "gg ", " gg"])
 			end
 			when "cash"
 				items.select do |x|
-					item_matches_phrases(x, ["$", "usd", "dollar"])
+					item_matches_phrases(x, ["$", "usd", "dollar", "cash"])
 				end
 			else
 				items

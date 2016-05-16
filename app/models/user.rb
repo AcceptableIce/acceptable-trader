@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
 	def get_item_from_collection(id)
 		collection = get_collection
 		if !get_collection.nil?
-			items.select { |x| x.id == id}
+			collection.items.select { |x| x.id == id}
 		else
 			nil
 		end
