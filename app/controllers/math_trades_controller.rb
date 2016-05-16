@@ -298,7 +298,7 @@ class MathTradesController < ApplicationController
 	end
 	
 	def add_bgg_data_to_hash(hash, bgg_item_data)
-		if !bgg_item_data.nil?
+		if !bgg_item_data.nil? && bgg_item_data.name.length > 0
 			collection_data = current_user.get_item_from_collection(bgg_item_data.id)
 			hash[:bgg_item_data] = {
 				type: bgg_item_data.type,
