@@ -27,8 +27,10 @@ var TradeItemDescription = React.createClass({
 								{linkedItem.year_published > 0 ? " (" + linkedItem.year_published + ")" : null}
 							
 							</a>
-							{linkedItem.statistics.ranks.length > 0 ? <span className="linked-item-data">Rank: {linkedItem.statistics.ranks[0].value}</span> : null}
-							{linkedItem.statistics.average > 0 ? <span className="linked-item-data">Rating: {Number(linkedItem.statistics.average).toFixed(2)}</span> : null}
+							{linkedItem.statistics && linkedItem.statistics.ranks && linkedItem.statistics.ranks.length > 0 ? 
+								<span className="linked-item-data">Rank: {linkedItem.statistics.ranks[0].value}</span> : null}
+							{linkedItem.statistics && linkedItem.statistics.average > 0 ? 
+								<span className="linked-item-data">Rating: {Number(linkedItem.statistics.average).toFixed(2)}</span> : null}
 						</span>
 					);
 				} else {
