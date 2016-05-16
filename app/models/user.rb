@@ -10,9 +10,14 @@ class User < ActiveRecord::Base
          
   def bgg_user
 	  if verified?
-		  return Rails.cache.fetch("user_#{id}/bgg_user_data", expires_in: 12.hours) do
-		  	BoardGameGem.get_user(bgg_account)
-		  end
+		  value = Rails.cache.fetch("user_#{id}/bgg_user_data")
+		  if value.nil?
+			  Rails.cache.delete("user_#{id}/bgg_user_data")
+			  value = Rails.cache.fetch("user_#{id}/bgg_user_data", expires_in: 12.hours) do
+			  	BoardGameGem.get_user(bgg_account) rescue nil
+			  end
+			 end
+			 value
 		else
 			return nil
 		end
