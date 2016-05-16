@@ -2,7 +2,8 @@ var TradeItem = React.createClass({
 		getInitialState: function() {
 			return {
 				showAdd: false,
-				showQuickAdd: this.props.data.want_data === null
+				showQuickAdd: this.props.data.want_data === null,
+				want_data: this.props.data.want_data
 			};
 		},
 		getStatusItems: function() {
@@ -15,7 +16,7 @@ var TradeItem = React.createClass({
 				want_to_play: "Want to Play",
 				want_to_buy: "Want to Buy",
 				wishlist: "Wishlist",
-				preordered: "Preordered"
+				preordered: "Preordered",
 			}
 			status_items = this.getStatus().map(function(key) {
 				var class_name = "collection-tag " + key;
@@ -85,8 +86,8 @@ var TradeItem = React.createClass({
 			
 			var addButtons = this.props.data.user_id !== this.props.list.props.user_id ? (
 				<span>
-					<div className="button info small" onClick={this.onShowAddRequest}>
-						{this.state.showAdd ? "Close" : (this.props.data.want_data ? "Add (" + this.props.data.want_data.length + ")" : "Add") }
+					<div className="button info small"onClick={this.onShowAddRequest}>
+						{this.state.showAdd ? "Close" : (this.state.want_data ? "Add (" + this.state.want_data.length + ")" : "Add") }
 					</div>
 					{this.state.showQuickAdd ? <div className="button hollow info small" onClick={this.onQuickAdd}>Quick<br/>Add</div> : null}
 				</span>

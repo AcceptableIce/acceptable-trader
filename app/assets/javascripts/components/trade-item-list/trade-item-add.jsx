@@ -1,7 +1,8 @@
 var TradeItemAdd = React.createClass({
 	getInitialState: function() {
 		var toggles = {}
-		var want_data = this.props.item.props.data.want_data;
+		var want_data = this.props.item.state.want_data;
+		console.log(want_data);
 		var user_items = this.props.item.props.list.state.user_items;
 		for(var key in user_items) {
 			var item = user_items[key];
@@ -20,12 +21,14 @@ var TradeItemAdd = React.createClass({
 	},
 	onConfirm: function(event) {
 		var close_action = this.props.item.onShowAddRequest
+		var user_items = this.props.item.props.list.state.user_items; 
 		var allowed_items = [];
 		for(var key in this.state.toggles) {
 			if(this.state.toggles[key] === "on") {
-				allowed_items.push(key)
+				allowed_items.push(Number(key))
 			}
 		}
+		this.props.item.setState({ want_data: allowed_items });
 		$.ajax({
 			url: "/trades/" + this.props.item.props.list.props.trade.id + "/wants",
 			method: "post",

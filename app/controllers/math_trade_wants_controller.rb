@@ -22,6 +22,16 @@ class MathTradeWantsController < ApplicationController
 			render json: { error: true, message: "Unable to save want request." }
 		end
 	end
+	
+	def destroy
+		@want = MathTradeWant.find(params[:id])
+		if @want.user == current_user
+			@want.destroy
+			render json: { error: false, message: "Want deleted successfully." }
+		else
+			render :unauthorized
+		end
+	end
 		
 	def want_params
 		params.require(:math_trade_want).permit(:user_id, :math_trade_id, :math_trade_item_id)

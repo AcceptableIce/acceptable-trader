@@ -59,12 +59,25 @@ var WantlistGrid = React.createClass({
 		});
 	},
 	removeRow: function(index) {
-		console.log(index);
+		var row = this.state.wants[index];
 		var selectionGrid = this.state.selectionGrid;
 		selectionGrid.splice(index, 1);
 		
 		var wants = this.state.wants
 		wants.splice(index, 1);
+		console.log(row);
+		$.ajax({
+			url: "/trades/" + this.props.trade.id + "/wants/" + row.id,
+			dataType: "json",
+			cache: false,
+			method: "delete",
+			success: function(data) {
+				console.log("Row removed successfully.")
+			}.bind(this),
+			error: function(xhr, status, error) {
+				console.error(status, error.toString())
+			}.bind(this)
+		});
 		
 		this.setState({ selectionGrid: selectionGrid, wants: wants });
 	},
