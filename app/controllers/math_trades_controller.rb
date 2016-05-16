@@ -298,8 +298,8 @@ class MathTradesController < ApplicationController
 	end
 	
 	def add_bgg_data_to_hash(hash, bgg_item_data)
-		if !bgg_item_data.nil? && bgg_item_data.name.length > 0
-			collection_data = current_user.get_item_from_collection(bgg_item_data.id)
+		if !bgg_item_data.nil?
+		collection_data = current_user.get_item_from_collection(bgg_item_data.id)
 			hash[:bgg_item_data] = {
 				type: bgg_item_data.type,
 				thumbnail: bgg_item_data.thumbnail,
@@ -308,7 +308,10 @@ class MathTradesController < ApplicationController
 				min_players: bgg_item_data.min_players,
 				max_players: bgg_item_data.max_players,
 				playing_time: bgg_item_data.playing_time,
-				statistics: {
+				collection: collection_data && collection_data.length > 0 ? collection_data[0].status : nil
+			}
+			if !bgg_item_data.statistics.nil?
+				hash[:bgg_item_data][:statistics] = {
 					average: bgg_item_data.statistics[:average],
 					bayes: bgg_item_data.statistics[:bayes],
 					owned: bgg_item_data.statistics[:owned],
@@ -317,9 +320,8 @@ class MathTradesController < ApplicationController
 					wishing: bgg_item_data.statistics[:wishing],
 					weight: bgg_item_data.statistics[:average_weight],
 					rank: bgg_item_data.statistics[:ranks][0]
-				},
-				collection: collection_data && collection_data.length > 0 ? collection_data[0].status : nil
-			}
+				}
+			end
 		else
 			hash[:bgg_item_data] = nil
 		end
