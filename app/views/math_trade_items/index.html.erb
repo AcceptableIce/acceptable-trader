@@ -2,7 +2,7 @@
 	<% if @trade.items_from_user(current_user).length > 0 %>
 		<%= react_component 'TradeItemList', { trade: @trade, user_id: current_user.id, filter: params[:filter] } %>
 		<p>
-			When you've finished selection items, click the button below to manage your wantlist.
+			When you've finished selecting items, click the button below to manage your wantlist.
 		</p>
 		<%= link_to "Manage My Wantlist", manage_wantlist_math_trade_url(@trade), class: "button large" %>
 	<% else %>

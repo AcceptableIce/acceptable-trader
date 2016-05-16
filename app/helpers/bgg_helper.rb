@@ -48,7 +48,7 @@ module BggHelper
 		value = Rails.cache.fetch("bgg_item_#{id}/data");
 		if value.nil?
 			value = Rails.cache.fetch("bgg_item_#{id}/data", expires_in: 7.days) do
-				new_item = BoardGameGem.get_item(id, true)
+				new_item = BoardGameGem.get_item(id, true) rescue nil
 				if new_item.nil?
 					value
 				else
