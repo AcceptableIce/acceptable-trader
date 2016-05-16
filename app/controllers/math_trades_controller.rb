@@ -153,7 +153,7 @@ class MathTradesController < ApplicationController
 				hash[:bgg_item_data] = nil
 			end
 			want_data = x.wants.joins(:want_items).where(user_id: current_user.id).pluck(:'math_trade_want_items.math_trade_item_id')
-			hash[:want_data] = x.wants.length > 0 ? want_data : nil
+			hash[:want_data] = want_data.length > 0 ? want_data : nil
 			hash
 		end
 		if params[:filter]
