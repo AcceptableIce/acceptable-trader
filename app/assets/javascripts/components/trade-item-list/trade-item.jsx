@@ -76,7 +76,7 @@ var TradeItem = React.createClass({
 				</div>
 			) : null;
 			
-			var statistics = item_data ? (
+			var statistics = item_data && item_data.statistics ? (
 				<span>
 					Rank: {item_data.statistics.rank.value == 0 ? "N/A" : item_data.statistics.rank.value}<br/>
 					Rating: {item_data.statistics.average == 0 ? "N/A" : Number(item_data.statistics.average).toFixed(2)}<br/>
