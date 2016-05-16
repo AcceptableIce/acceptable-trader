@@ -1,5 +1,6 @@
 class MathTradesController < ApplicationController
 	include MathTradesHelper
+	include BoardGameGem
 	
 	before_filter :load_trade, :validate_access, except: [:new, :index, :create]
 	
@@ -142,12 +143,22 @@ class MathTradesController < ApplicationController
 		
 	def retrieve_items
 		items = @trade.items.includes(:wants)
+		item_ids = @trade.items.map(&:bgg_item).select { |x| x != -1 }
+		# Fetch updated data from BGG
+		#abort BoardGameGem.methods.to_s
+		#newest_data =  Rails.cache.fetch("bgg_mass_#{item_ids.join("_")}/data", expires_in: 14.days) do
+	#		BoardGameGem.get_items(item_ids, true)
+	#	end
+		
 		items = items.map do |x| 
 			hash = x.as_json
 			hash[:bgg_user_data] = x.user.bgg_user
 			hash[:linked_items] = x.get_linked_items
 			if x[:bgg_item] != -1 
 				bgg_item_data = BggHelper.get_item(x[:bgg_item])
+				if bgg_item_data.nil?
+					bgg_item_data = newest_data.select { |x| x.id == x[:bgg_item] }
+				end
 				hash = add_bgg_data_to_hash(hash, bgg_item_data)
 			else
 				hash[:bgg_item_data] = nil

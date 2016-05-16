@@ -69,10 +69,10 @@ var TradeItem = React.createClass({
 			var metadata = item_data && item_data.statistics ? (
 				<div className="trade-item-metadata">
 					{item_type} / {item_data.min_players}-{item_data.max_players} players /&nbsp;
-					{item_data.playing_time} minutes / <b>Trade</b>, Want, <b>Wish</b>:&nbsp;
-					{item_data.statistics.trading},&nbsp;
+					{item_data.playing_time} minutes / <b>Trade</b>, Want, <i>Wish</i>:&nbsp;
+					<b>{item_data.statistics.trading}</b>,&nbsp;
 					{item_data.statistics.wanting},&nbsp;
-					{item_data.statistics.wishing}
+					<i>{item_data.statistics.wishing}</i>
 				</div>
 			) : null;
 			
