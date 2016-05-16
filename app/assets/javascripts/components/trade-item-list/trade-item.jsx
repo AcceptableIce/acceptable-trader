@@ -66,7 +66,7 @@ var TradeItem = React.createClass({
 			var item_type =  item_data ? {"boardgame": "Board Game", "rpgitem": "RPG Item", "videogame": "Video Game"}[item_data.type] : "";
 			var altname = this.props.data.alt_name;
 			var item_link = "/trades/" + this.props.list.props.trade.id + "/items/" + this.props.data.id;
-			var metadata = item_data ? (
+			var metadata = item_data && item_data.statistics ? (
 				<div className="trade-item-metadata">
 					{item_type} / {item_data.min_players}-{item_data.max_players} players /&nbsp;
 					{item_data.playing_time} minutes / <b>Trade</b>, Want, <b>Wish</b>:&nbsp;
