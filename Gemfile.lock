@@ -48,10 +48,10 @@ GEM
     bcrypt (3.1.11)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    board-game-gem (0.2.4)
+    board-game-gem (0.2.6)
       nokogiri
     builder (3.2.2)
-    byebug (9.0.2)
+    byebug (9.0.3)
     capistrano (3.5.0)
       airbrussh (>= 1.0.0)
       capistrano-harrow
@@ -121,7 +121,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0221)
     mini_portile2 (2.0.0)
-    minitest (5.8.4)
+    minitest (5.9.0)
     modernizr-rails (2.7.1)
     multi_json (1.12.0)
     mysql2 (0.4.4)
@@ -208,7 +208,7 @@ GEM
       net-ssh (>= 2.8.0)
     thor (0.19.1)
     thread_safe (0.3.5)
-    tilt (2.0.3)
+    tilt (2.0.4)
     turbolinks (2.5.3)
       coffee-rails
     tzinfo (1.2.2)
