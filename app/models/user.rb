@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
 		  if value.nil? || value.id == -1
 			  Rails.cache.delete("user_#{id}/bgg_user_data")
 			  value = Rails.cache.fetch("user_#{id}/bgg_user_data", expires_in: 12.hours) do
-			  	BoardGameGem.get_user(bgg_account) rescue BGGUser.new
+			  	BoardGameGem.get_user(bgg_account) rescue BGGUser.new(nil)
 			  end
 			 end
 			 value
