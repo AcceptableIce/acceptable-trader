@@ -29,10 +29,10 @@ class User < ActiveRecord::Base
 	
 	def get_collection(filter = {})		
 		value = Rails.cache.fetch("user_#{id}/collection")
-		if value.nil?
+		if value.nil? || value.count == -1
 			Rails.cache.delete("user_#{id}/collection")
 			value = Rails.cache.fetch("user_#{id}/collection", expires_in: 12.hours) do
-				BoardGameGem.get_collection(bgg_account)
+				BoardGameGem.get_collection(bgg_account) rescue BGGCollection.new(nil)
 			end
 		end
 		return value
