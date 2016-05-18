@@ -14,7 +14,7 @@ class MathTrade < ActiveRecord::Base
 	validate :deadline_ordering
 		
 	def items_from_user(user)
-		items.select { |x| x["user_id"] == user.id }
+		items.includes(:bgg_item).select { |x| x["user_id"] == user.id }
 	end
 	
 	def users_in_trade
@@ -22,7 +22,7 @@ class MathTrade < ActiveRecord::Base
 	end
 
 	def get_user_wantlist(user)
-		wants.where(user_id: user.id)
+		wants.includes(:item, item: :bgg_item).where(user_id: user.id)
 	end
 	
 	def get_user_groups(user)

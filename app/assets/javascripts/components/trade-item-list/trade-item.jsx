@@ -28,7 +28,7 @@ var TradeItem = React.createClass({
 			return status_items;
 		},
 		getStatus: function() {
-			var collection = this.props.data.bgg_item_data && this.props.data.bgg_item_data.collection;
+			var collection = this.props.data.collection;
 			if(collection != null) {
 				var accepted_keys = Object.keys(collection).filter(function(key) { return collection[key] === true });
 				return accepted_keys
@@ -108,7 +108,7 @@ var TradeItem = React.createClass({
 						<div className="trade-item-title">
 							{this.props.data.position}.&nbsp;
 							<a href={item_link}>{altname ? altname : (item_data ? item_data.name : "Data missing")}</a> 
-							{item_data && item_data.year_published > 0 ? "(" + item_data.year_published + ")" : ""}
+							{item_data && item_data.year_published > 0 ? " (" + item_data.year_published + ")" : ""}
 							{this.getStatusItems()}
 						</div>
 						<div className="trade-item-user">

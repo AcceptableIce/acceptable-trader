@@ -1,7 +1,7 @@
 class MathTradesController < ApplicationController
 	include MathTradesHelper
 	include BoardGameGem
-	
+		
 	before_filter :load_trade, :validate_access, except: [:new, :index, :create]
 	
 	before_filter :validate_ownership, only: [:confirm_delete, :edit, :update, :status, :save_status, :upload]
@@ -38,24 +38,19 @@ class MathTradesController < ApplicationController
 	end
 	
 	def wantlist
-		@wantlist = @trade.get_user_wantlist(current_user).includes(:item).map do |x|
+		@wantlist = @trade.get_user_wantlist(current_user).map do |x|
 			hash = x.as_json
-			bgg_item_data = BggHelper.get_item(x.item.bgg_item)
-			hash = add_bgg_data_to_hash(hash, bgg_item_data)
+			hash[:bgg_item_data] = x.item.bgg_item
 			hash[:alt_name] = x.item.alt_name
 			hash[:item_id] = x.item.id
 			hash[:want_values] = x.want_items.pluck(:math_trade_item_id)
 			hash
 		end
 		
+		
 		@items = @trade.items_from_user(current_user).map do |x|
 			hash = x.as_json
-			if x[:bgg_item] != -1 
-				bgg_item_data = BggHelper.get_item(x[:bgg_item])
-				hash = add_bgg_data_to_hash(hash, bgg_item_data)
-			else
-				hash[:bgg_item_data] = nil
-			end
+			hash[:bgg_item_data] = x.bgg_item_id != -1 ? x.bgg_item : nil
 			hash
 		end
 		
@@ -142,22 +137,22 @@ class MathTradesController < ApplicationController
 	end
 		
 	def retrieve_items
-		items = @trade.items.includes(:wants)
-		
+		items = @trade.items.includes(:wants, :bgg_item)
+		collection = current_user.get_collection
 		# Retrieve all the items in the list
-		item_ids = items.map(&:bgg_item_id).select { |x| x != -1 }
+		item_ids = items.pluck(&:bgg_item_id).select { |x| x != -1 }
+
 		bgg_items = BggItemData.where(id: item_ids)
-		
+
 		# Find missing IDs and fetch mass item data from BGG
 		missing_item_ids = items.select {|x| !x.is_bgg_item_loaded? }.map {|x| x.bgg_item_id}
-		bgg_items += BggHelper.fetch_items(missing_item_ids)
-		bgg_items = bgg_items.index_by(&:id)
+		BggImporterService.enqueue_items(missing_item_ids)
 		
 		# Retrieve user data
-		user_data_mapping = items.joins(:user).distinct.select("users.bgg_user_data_id, user_id")
+		user_data_mapping = items.includes(:user).joins(:user).distinct
 		user_data_ids = user_data_mapping.pluck(:bgg_user_data_id)
 		user_data_results = BggUserData.where(id: user_data_ids).index_by(&:id)
-		user_data = Hash[user_data_mapping.map { |x| [x[:user_id], user_data_results[x[:bgg_user_data_id]]] }]
+		user_data = Hash[user_data_mapping.map { |x| [x.user_id, user_data_results[x.user.bgg_user_data_id]] }]
 		# Retrieve all the want data
 		want_data = MathTradeWant.joins("LEFT JOIN math_trade_want_items ON math_trade_want_items.math_trade_want_id = math_trade_wants.id")
 			.where(math_trade_id: @trade.id, user_id: current_user.id)
@@ -182,6 +177,7 @@ class MathTradesController < ApplicationController
 				hash[:bgg_item_data] = nil
 			end
 			hash[:want_data] = want_data[x.id] ? want_data[x.id].map { |x| x.want_id }.compact : nil
+			hash[:collection] = collection.status_of(x.bgg_item_id)
 			hash
 		end
 		

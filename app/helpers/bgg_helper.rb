@@ -49,12 +49,12 @@ module BggHelper
 	
 	def self.fetch_items(ids)
 		ids.select! {|x| x > 0 }
-		Rails.logger.debug "Fetching mass items from BGG: #{ids.join(",")}"
+		#Rails.logger.debug "Fetching mass items from BGG: #{ids.join(",")}"
 		added_items = []
 		ids.in_groups_of(50).each do |id_list|
-			Rails.logger.debug id_list.to_s
+			#Rails.logger.debug id_list.to_s
 			items = BoardGameGem.get_items(id_list, true, type: "boardgame,boardgameexpansion,videogame") rescue nil
-			Rails.logger.debug "Items found: #{items ? items.length : "nil"}"
+			#Rails.logger.debug "Items found: #{items ? items.length : "nil"}"
 			if !items.nil?
 				items.each do |item|
 					added_items.push(BggHelper.save_item(item))

@@ -41,7 +41,6 @@ var TradeItemDescription = React.createClass({
 				descriptionComponents.push(parts[index]);
 			}
 		}
-		console.log(descriptionComponents);
 		return descriptionComponents;
 	},
 	render: function() {
