@@ -12,11 +12,21 @@ class MathTradeItem < ActiveRecord::Base
 	
 	validate :name_is_set, :check_linked_items
 	
+	belongs_to :bgg_item, class_name: "BggItemData"
+	
 	def to_bgg_item
 		if bgg_item != -1
 			return BggHelper.get_item(bgg_item)
 		else
 			return BGGItem.new(nil)
+		end
+	end
+	
+	def is_bgg_item_loaded?
+		if bgg_item != -1
+			return !bgg_item.nil? && (DateTime.now - bgg_item.created_at.to_date).to_i < 14
+		else
+			true
 		end
 	end
 	

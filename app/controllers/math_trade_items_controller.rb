@@ -53,7 +53,7 @@ class MathTradeItemsController < ApplicationController
 	private
 	
 	def item_params
-		params.require(:math_trade_item).permit(:bgg_item, :user_id, :math_trade_id, :description, :alt_name)
+		params.require(:math_trade_item).permit(:bgg_item_id, :user_id, :math_trade_id, :description, :alt_name)
 	end
 	
 	def load_trade

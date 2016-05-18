@@ -10,8 +10,8 @@
 		</div>
 	<% end %>
 	<p>
-		<%= form.label :bgg_item, "BoardGameGeek Item" %>
-		<%= form.select :bgg_item, [], {}, value: ActiveSupport::JSON.encode(BggHelper.get_item(@item.bgg_item)), class: "bgg-search" %>
+		<%= form.label :bgg_item_id, "BoardGameGeek Item" %>
+		<%= form.select :bgg_item_id, [], {}, value: ActiveSupport::JSON.encode(BggHelper.get_item(@item.bgg_item)), class: "bgg-search" %>
 		<p class="help-text">
 			Leave this blank if you're trading outside the scope of BoardGameGeek.
 		</p>

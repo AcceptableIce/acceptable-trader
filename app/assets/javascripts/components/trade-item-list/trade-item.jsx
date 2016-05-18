@@ -107,7 +107,8 @@ var TradeItem = React.createClass({
 					<div className="trade-item-body">
 						<div className="trade-item-title">
 							{this.props.data.position}.&nbsp;
-							<a href={item_link}>{altname ? altname : (item_data ? item_data.name : "Data missing")}</a> {item_data ? "(" + item_data.year_published + ")" : ""}
+							<a href={item_link}>{altname ? altname : (item_data ? item_data.name : "Data missing")}</a> 
+							{item_data && item_data.year_published > 0 ? "(" + item_data.year_published + ")" : ""}
 							{this.getStatusItems()}
 						</div>
 						<div className="trade-item-user">

@@ -11,10 +11,59 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160516002407) do
+ActiveRecord::Schema.define(version: 20160517221244) do
+
+  create_table "bgg_item_data", force: :cascade do |t|
+    t.string   "item_type",        limit: 255
+    t.string   "image",            limit: 255
+    t.string   "thumbnail",        limit: 255
+    t.string   "name",             limit: 255
+    t.text     "description",      limit: 65535
+    t.integer  "year_published",   limit: 4
+    t.integer  "min_players",      limit: 4
+    t.integer  "max_players",      limit: 4
+    t.integer  "playing_time",     limit: 4
+    t.integer  "min_playing_time", limit: 4
+    t.integer  "max_playing_time", limit: 4
+    t.integer  "user_ratings",     limit: 4
+    t.float    "average",          limit: 24
+    t.float    "bayes",            limit: 24
+    t.float    "stddev",           limit: 24
+    t.float    "median",           limit: 24
+    t.integer  "owned",            limit: 4
+    t.integer  "trading",          limit: 4
+    t.integer  "wanting",          limit: 4
+    t.integer  "wishing",          limit: 4
+    t.integer  "num_comments",     limit: 4
+    t.integer  "num_weights",      limit: 4
+    t.integer  "average_weight",   limit: 4
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
+  create_table "bgg_item_data_ranks", force: :cascade do |t|
+    t.integer  "bgg_item_data_id", limit: 4,   null: false
+    t.string   "rank_type",        limit: 255
+    t.string   "name",             limit: 255
+    t.string   "friendly_name",    limit: 255
+    t.integer  "value",            limit: 4
+    t.float    "bayes",            limit: 24
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "bgg_item_data_ranks", ["bgg_item_data_id"], name: "index_bgg_item_data_ranks_on_bgg_item_data_id", using: :btree
+
+  create_table "bgg_user_data", force: :cascade do |t|
+    t.string  "name",            limit: 255
+    t.string  "avatar",          limit: 255
+    t.integer "year_registered", limit: 4
+    t.string  "state",           limit: 255
+    t.integer "trade_rating",    limit: 4
+  end
 
   create_table "math_trade_items", force: :cascade do |t|
-    t.integer  "bgg_item",      limit: 4,     default: -1,    null: false
+    t.integer  "bgg_item_id",   limit: 4,     default: -1,    null: false
     t.integer  "user_id",       limit: 4,                     null: false
     t.integer  "math_trade_id", limit: 4,                     null: false
     t.text     "description",   limit: 65535
@@ -91,12 +140,14 @@ ActiveRecord::Schema.define(version: 20160516002407) do
     t.string   "current_sign_in_ip",            limit: 255
     t.string   "last_sign_in_ip",               limit: 255
     t.string   "bgg_account",                   limit: 255
+    t.integer  "bgg_user_data_id",              limit: 4
     t.string   "bgg_account_verification_code", limit: 255
     t.boolean  "bgg_account_verified",                      default: false, null: false
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
   end
 
+  add_index "users", ["bgg_user_data_id"], name: "index_users_on_bgg_user_data_id", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
@@ -132,6 +183,7 @@ ActiveRecord::Schema.define(version: 20160516002407) do
   add_index "want_groups", ["math_trade_id"], name: "index_want_groups_on_math_trade_id", using: :btree
   add_index "want_groups", ["user_id"], name: "index_want_groups_on_user_id", using: :btree
 
+  add_foreign_key "bgg_item_data_ranks", "bgg_item_data"
   add_foreign_key "math_trade_items", "math_trades"
   add_foreign_key "math_trade_items", "users"
   add_foreign_key "math_trade_want_confirmations", "math_trades"
@@ -142,6 +194,7 @@ ActiveRecord::Schema.define(version: 20160516002407) do
   add_foreign_key "math_trade_wants", "math_trades"
   add_foreign_key "math_trade_wants", "users"
   add_foreign_key "math_trades", "users", column: "moderator_id"
+  add_foreign_key "users", "bgg_user_data"
   add_foreign_key "want_group_items", "math_trade_items"
   add_foreign_key "want_group_items", "want_groups"
   add_foreign_key "want_group_links", "math_trade_wants"

@@ -7,17 +7,16 @@ class User < ActiveRecord::Base
          
   after_create :send_verification_message
   validates_uniqueness_of :bgg_account, case_sensitive: false, message: "is already linked to another user."
+  
+  belongs_to :bgg_user_data
          
   def bgg_user
 	  if verified?
-		  value = Rails.cache.fetch("user_#{id}/bgg_user_data")
-		  if value.nil? || value.id == -1
-			  Rails.cache.delete("user_#{id}/bgg_user_data")
-			  value = Rails.cache.fetch("user_#{id}/bgg_user_data", expires_in: 12.hours) do
-			  	BoardGameGem.get_user(bgg_account) rescue BGGUser.new(nil)
-			  end
-			 end
-			 value
+		  if !bgg_user_data.nil?
+			  bgg_user_data
+			else
+				BggHelper.get_user(bgg_account)
+			end
 		else
 			return nil
 		end

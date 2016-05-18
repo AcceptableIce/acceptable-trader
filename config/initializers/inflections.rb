@@ -14,3 +14,8 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym 'RESTful'
 # end
+
+ActiveSupport::Inflector.inflections do |inflect|
+  inflect.irregular 'bgg_item_data', 'bgg_item_data' 
+  inflect.irregular 'bgg_user_data', 'bgg_user_data'
+ end

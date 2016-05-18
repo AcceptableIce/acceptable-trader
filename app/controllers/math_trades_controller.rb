@@ -143,30 +143,48 @@ class MathTradesController < ApplicationController
 		
 	def retrieve_items
 		items = @trade.items.includes(:wants)
-		item_ids = @trade.items.map(&:bgg_item).select { |x| x != -1 }
-		# Fetch updated data from BGG
-		#abort BoardGameGem.methods.to_s
-		#newest_data =  Rails.cache.fetch("bgg_mass_#{item_ids.join("_")}/data", expires_in: 14.days) do
-	#		BoardGameGem.get_items(item_ids, true)
-	#	end
 		
+		# Retrieve all the items in the list
+		item_ids = items.map(&:bgg_item_id).select { |x| x != -1 }
+		bgg_items = BggItemData.where(id: item_ids)
+		
+		# Find missing IDs and fetch mass item data from BGG
+		missing_item_ids = items.select {|x| !x.is_bgg_item_loaded? }.map {|x| x.bgg_item_id}
+		bgg_items += BggHelper.fetch_items(missing_item_ids)
+		bgg_items = bgg_items.index_by(&:id)
+		
+		# Retrieve user data
+		user_data_mapping = items.joins(:user).distinct.select("users.bgg_user_data_id, user_id")
+		user_data_ids = user_data_mapping.pluck(:bgg_user_data_id)
+		user_data_results = BggUserData.where(id: user_data_ids).index_by(&:id)
+		user_data = Hash[user_data_mapping.map { |x| [x[:user_id], user_data_results[x[:bgg_user_data_id]]] }]
+		# Retrieve all the want data
+		want_data = MathTradeWant.joins("LEFT JOIN math_trade_want_items ON math_trade_want_items.math_trade_want_id = math_trade_wants.id")
+			.where(math_trade_id: @trade.id, user_id: current_user.id)
+			.select('math_trade_want_items.math_trade_item_id AS want_id, math_trade_wants.math_trade_item_id AS item_id').group_by(&:item_id)
+					
 		items = items.map do |x| 
 			hash = x.as_json
-			hash[:bgg_user_data] = x.user.bgg_user
+			hash[:bgg_user_data] = user_data[x.user_id]
 			hash[:linked_items] = x.get_linked_items
 			if x[:bgg_item] != -1 
-				bgg_item_data = BggHelper.get_item(x[:bgg_item])
-				if bgg_item_data.nil?
-					bgg_item_data = newest_data.select { |x| x.id == x[:bgg_item] }
+				if !x.bgg_item.nil?
+					hash[:bgg_item_data] = x.bgg_item.as_json
+				else
+				 	relevant_item = bgg_items[x.bgg_item_id]
+				 	if !relevant_item.nil?
+						hash[:bgg_item_data] = relevant_item.as_json
+					else
+						#hash[:bgg_item_data] = BggHelper.get_item(x[:bgg_item]).as_json
+					end
 				end
-				hash = add_bgg_data_to_hash(hash, bgg_item_data)
 			else
 				hash[:bgg_item_data] = nil
 			end
-			want_data = x.wants.joins(:want_items).where(user_id: current_user.id).pluck(:'math_trade_want_items.math_trade_item_id')
-			hash[:want_data] = want_data.length > 0 ? want_data : nil
+			hash[:want_data] = want_data[x.id] ? want_data[x.id].map { |x| x.want_id }.compact : nil
 			hash
 		end
+		
 		if params[:filter]
 			items = case params[:filter]
 			when "wishlist"
