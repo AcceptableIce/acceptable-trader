@@ -1,9 +1,13 @@
 # Acceptable Trader
-Acceptable Trader is a tool for managing and participating in [board game math trades](https://boardgamegeek.com/wiki/page/Math_Trades), a specific type of trade in which the maximum number of possible trades are calculated using an algorithm, such as [TradeMaximizer](https://boardgamegeek.com/wiki/page/TradeMaximizer).
+Acceptable Trader is a tool for managing and participating in [board game math trades](https://boardgamegeek.com/wiki/page/Math_Trades), a type of trade wherein an algorithm is used to maximize the number of items swapped between users. Acceptable Trader is designed to work with [TradeMaximizer](https://boardgamegeek.com/wiki/page/TradeMaximizer), or any derivative software which expects the same format for input.
 
-Acceptable Trader aims to provide a clean, intuitive interface such that the high barrier to entry inheret to math trades might be a bit lower. In addition, Acceptable Trader tries to be unreliant on BoardGameGeek for anything outside of item data and user verification.
+Acceptable Trader was built with two primary design goals:
 
-Acceptable Trader is built on Ruby on Rails and React.js. 
+1. __Clean and Intuitive Design:__ The barrier to entry for math trades is inherently high due to the prerequisite knowledge of both the methodology and the tooling, and thus by removing any additonal complexity from interface, the math trading community might grow - which benefits everyone!
+
+2. __Non-Reliance on BoardGameGeek:__ The [Online Wantlist Generator](http://bgg.activityclub.org/olwlg) (upon which Acceptable Trader is based) tends to fail when attempting to import listings for overly large trades. Acceptable Trader handles offer lists internally, side-stepping the GeekList syncing issue entirely. Acceptable Trader _does_ use the BGG XMLAPI2 to retrieve game and user metadata, as well as to message users.
+
+Acceptable Trader is built on Ruby on Rails and React.js. The Rubygem used to retrieve BoardGameGeek data can be found here: [acceptableice/board-game-gem](http://github.com/acceptableice/board-game-gem).
 
 ## Installing Acceptable Trader
 1. Clone this repository into a directory.
