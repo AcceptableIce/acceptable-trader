@@ -5,7 +5,7 @@ Acceptable Trader was built with two primary design goals:
 
 1. __Clean and Intuitive Design:__ The barrier to entry for math trades is inherently high due to the prerequisite knowledge of both the methodology and the tooling, and thus by removing any additonal complexity from interface, the math trading community might grow - which benefits everyone!
 
-2. __Non-Reliance on BoardGameGeek:__ The [Online Wantlist Generator](http://bgg.activityclub.org/olwlg) (upon which Acceptable Trader is based) tends to fail when attempting to import listings for overly large trades. Acceptable Trader handles offer lists internally, side-stepping the GeekList syncing issue entirely. Acceptable Trader _does_ use the BGG XMLAPI2 to retrieve game and user metadata, as well as to message users.
+2. __Decreased Reliance on BoardGameGeek:__ The [Online Wantlist Generator](http://bgg.activityclub.org/olwlg) (upon which Acceptable Trader is based) tends to fail when attempting to import listings for overly large trades. Acceptable Trader handles offer lists internally, side-stepping the GeekList syncing issue entirely. Acceptable Trader _does_ use the BGG XMLAPI2 to retrieve game and user metadata, as well as to message users.
 
 Acceptable Trader is built on Ruby on Rails and React.js. The Rubygem used to retrieve BoardGameGeek data can be found here: [acceptableice/board-game-gem](http://github.com/acceptableice/board-game-gem).
 
