@@ -20,7 +20,7 @@ module BggImporterService
 				
 				Rails.logger.debug("#{@@items_queue.length} game records, #{missing_users.length} user records unimported.")
 				if @@items_queue.length > 0
-					items_to_fetch = @@items_queue.shift(200).compact
+					items_to_fetch = @@items_queue.length > 200 ? @@items_queue.shift(200).compact : @@items_queue
 					items = BggHelper.fetch_items(items_to_fetch)
 					items_ids = items.map { |x| x.id }
 					items_missing = items_to_fetch - items_ids
