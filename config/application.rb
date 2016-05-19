@@ -25,7 +25,9 @@ module MathTradeManager
 		config.sass.load_paths << File.expand_path('../../vendor/assets/stylesheets/')
 		
 		config.after_initialize do
-			BggImporterService.start
+			if defined?(Rails::Server)
+				BggImporterService.start
+			end
 		end
   end
 end

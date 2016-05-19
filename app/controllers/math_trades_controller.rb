@@ -150,6 +150,7 @@ class MathTradesController < ApplicationController
 					
 		items = items.map do |x| 
 			hash = x.as_json
+			hash[:user_name] = x.user.bgg_account
 			hash[:bgg_user_data] = x.user.bgg_user_data
 			hash[:linked_items] = x.get_linked_items
 			hash[:bgg_item_data] = x.bgg_item
