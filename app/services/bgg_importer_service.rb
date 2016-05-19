@@ -8,11 +8,11 @@ module BggImporterService
 		Rails.logger.debug "Starting BGG Importer service."
 		scheduler = Rufus::Scheduler.new
 
-		scheduler.every "5s" do
+		scheduler.every "10s" do
 			begin
 				#Fetch items that have not been found
 				ids = ActiveRecord::Base.connection.select_all("SELECT math_trade_items.bgg_item_id FROM math_trade_items WHERE math_trade_items.bgg_item_id NOT IN " +
-				 "(SELECT DISTINCT bgg_item_data.id FROM math_trade_items INNER JOIN bgg_item_data ON bgg_item_data.id = math_trade_items.bgg_item_id)")
+				 "(SELECT DISTINCT bgg_item_data.id FROM math_trade_items INNER JOIN bgg_item_data ON bgg_item_data.id = math_trade_items.bgg_item_id) AND math_trade_items.bgg_item_id != -1")
 				 .map{ |x| x["bgg_item_id"].to_i }
 				self.enqueue_items(ids)
 				
