@@ -86,7 +86,7 @@ var TradeItemList = React.createClass({
 			if(this.state.status == "loaded") {
 				return(
 					<div class="trade-item-list">
-						{ this.state.missingItems > 0 ? this.state.missingItems + " item(s) are still being processed." : null}&nbsp;
+						{ this.state.missingItems > 0 ? this.state.missingItems + " item(s) are still being processed.&nbsp;" : null}
 						{ this.state.missingItemsThatBelongToMe > 0 ? "Of those, " + this.state.missingItemsThatBelongToMe + " belong to you." : null }
 						<TradeItemSort onSelection={this.onSort} />
 						<div className="trade-item-list-items">
