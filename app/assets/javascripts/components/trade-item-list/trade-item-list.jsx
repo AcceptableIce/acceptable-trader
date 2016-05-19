@@ -25,7 +25,7 @@ var TradeItemList = React.createClass({
 					for(var i = 0; i < data.length; i++) {
 						var item = data[i];
 						
-						if(item.bgg_item_data == null) {
+						if(item.bgg_item_data == null && item.bgg_item_id != -1) {
 							missingItems += 1;
 							data.splice(i, 1);
 							i -= 1;
