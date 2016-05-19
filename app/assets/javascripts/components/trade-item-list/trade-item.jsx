@@ -113,7 +113,7 @@ var TradeItem = React.createClass({
 						</div>
 						<div className="trade-item-user">
 							Posted by <a href={user_link} target="_blank">{this.props.data.user_name}</a>
-							&nbsp;(Trade Rating: {user_data ? user_data.trade_rating : (Still being synced)})
+							&nbsp;(Trade Rating: { user_data ? user_data.trade_rating : "(Still being synced)" })
 						</div>
 						{metadata}
 						<div className="trade-item-description">
