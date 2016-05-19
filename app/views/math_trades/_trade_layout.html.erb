@@ -19,12 +19,13 @@
       <li class="trade-nav-title">Filter</li>
       <li><%= link_to "On My Wishlist", math_trade_math_trade_items_path(@trade, filter: "wishlist") %></li>
       <li><%= link_to "Want In Trade", math_trade_math_trade_items_path(@trade, filter: "wantintrade") %></li>
+			<li><%= link_to "Want To Play", math_trade_math_trade_items_path(@trade, filter: "wanttoplay") %></li>
       <li><%= link_to "Want To Buy", math_trade_math_trade_items_path(@trade, filter: "wanttobuy") %></li>
       <li><%= link_to "Items I Already Own", math_trade_math_trade_items_path(@trade, filter: "owned") %></li>
       <li><%= link_to "Gift Certificates", math_trade_math_trade_items_path(@trade, filter: "giftcertificate") %></li>
       <li><%= link_to "Geek Gold", math_trade_math_trade_items_path(@trade, filter: "geekgold") %></li>
       <li><%= link_to "Cash", math_trade_math_trade_items_path(@trade, filter: "cash") %></li>
-			
+      
 			<% if @trade.can_view_results(current_user) %>
 				<li class="trade-nav-title">Results</li>
 	      <li><%= link_to "View Results", results_math_trade_path(@trade) %></li>

@@ -162,13 +162,15 @@ class MathTradesController < ApplicationController
 		if params[:filter]
 			items = case params[:filter]
 			when "wishlist"
-				items.select { |x| !x[:bgg_item_data].nil? && !x[:bgg_item_data][:collection].nil? && x[:bgg_item_data][:collection][:wishlist] }
+				items.select { |x| !x[:collection].nil? && x[:collection][:wishlist] }
 			when "wantintrade"
-				items.select { |x| !x[:bgg_item_data].nil? && !x[:bgg_item_data][:collection].nil? && x[:bgg_item_data][:collection][:want] }
+				items.select { |x| !x[:collection].nil? && x[:collection][:want] }
+			when "wanttoplay"
+				items.select { |x| !x[:collection].nil? && x[:collection][:want_to_play]}
 			when "wanttobuy"
-				items.select { |x| !x[:bgg_item_data].nil? && !x[:bgg_item_data][:collection].nil? && x[:bgg_item_data][:collection][:want_to_buy] }
+				items.select { |x| !x[:collection].nil? && x[:collection][:want_to_buy] }
 			when "owned"
-				items.select { |x| !x[:bgg_item_data].nil? && !x[:bgg_item_data][:collection].nil? && x[:bgg_item_data][:collection][:own] }	
+				items.select { |x| !x[:collection].nil? && x[:collection][:own] }	
 			when "me"
 				items.select { |x| x["user_id"] == current_user.id }
 			when "giftcertificate"
