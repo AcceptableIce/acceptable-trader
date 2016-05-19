@@ -48,10 +48,10 @@ GEM
     bcrypt (3.1.11)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    board-game-gem (0.3.9)
+    board-game-gem (0.4.0)
       nokogiri
     builder (3.2.2)
-    byebug (9.0.3)
+    byebug (9.0.4)
     capistrano (3.5.0)
       airbrussh (>= 1.0.0)
       capistrano-harrow

@@ -51,14 +51,12 @@ module BggHelper
 		ids.select! {|x| x > 0 }
 		#Rails.logger.debug "Fetching mass items from BGG: #{ids.join(",")}"
 		added_items = []
-		ids.in_groups_of(50).each do |id_list|
-			#Rails.logger.debug id_list.to_s
-			items = BoardGameGem.get_items(id_list, true, type: "boardgame,boardgameexpansion,videogame") rescue nil
-			#Rails.logger.debug "Items found: #{items ? items.length : "nil"}"
-			if !items.nil?
-				items.each do |item|
-					added_items.push(BggHelper.save_item(item))
-				end
+		#Rails.logger.debug id_list.to_s
+		items = BoardGameGem.get_items(ids.compact, true, 1, type: "boardgame,boardgameexpansion,videogame") rescue nil
+		#Rails.logger.debug "Items found: #{items ? items.length : "nil"}"
+		if !items.nil?
+			items.each do |item|
+				added_items.push(BggHelper.save_item(item))
 			end
 		end
 		added_items
@@ -108,14 +106,16 @@ module BggHelper
 				newItem.average_weight = item.statistics[:average_weight]
 			end
 			newItem.save
-			item.statistics[:ranks].each do |rank|
-				newItem.bgg_item_data_ranks.create({
-					rank_type: rank[:type],
-					name: rank[:name],
-					friendly_name: rank[:friendly_name],
-					value: rank[:value],
-					bayes: rank[:bayes]
-				})
+			if !item.statistics.nil?
+				item.statistics[:ranks].each do |rank|
+					newItem.bgg_item_data_ranks.create({
+						rank_type: rank[:type],
+						name: rank[:name],
+						friendly_name: rank[:friendly_name],
+						value: rank[:value],
+						bayes: rank[:bayes]
+					})
+				end
 			end
 			item
 		end
