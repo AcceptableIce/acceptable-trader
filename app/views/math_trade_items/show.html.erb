@@ -11,14 +11,12 @@
 		<% if @bgg_item.thumbnail != "" %>
 			<img src="<%= @bgg_item.thumbnail %>" />
 		<% end %>
-		<% if @bgg_item.statistics %>
-			<p>
-				<b>Average Ranking:</b> <%= @bgg_item.statistics[:average] %><br>
-				<% @bgg_item.statistics[:ranks].each do |rank| %>
-					<b><%= rank[:friendly_name] ? rank[:friendly_name] : rank[:name] %>:</b> <%= rank[:value] %><br>
-				<% end %>
-			</p>
-		<% end %>
+		<p>
+			<b>Average Ranking:</b> <%= @bgg_item.average %><br>
+			<% @bgg_item.bgg_item_data_ranks.each do |rank| %>
+				<b><%= rank.friendly_name ? rank.friendly_name : rank.name %>:</b> <%= rank.value %><br>
+			<% end %>
+		</p>
 	</div>
 	<div class="trade-item-header">
 		<h2>
@@ -48,10 +46,8 @@
 			<b>Play Time:</b> <%= @bgg_item.playing_time %> minutes.
 		</p>
 	<% end %>
-	<% if @bgg_item.statistics %>
-		<p>
-			<b>Bayes Average:</b> <%= @bgg_item.statistics[:bayes] %>
-		</p>		
-	<% end %>
+	<p>
+		<b>Bayes Average:</b> <%= @bgg_item.bayes %>
+	</p>		
 <% end %>
 <% end %>

@@ -46,7 +46,7 @@ class MathTrade < ActiveRecord::Base
 	end
 	
 	def user_confirmation(user)
-		return math_trade_want_confirmations.where(user_id: user.id).first
+		math_trade_want_confirmations.where(user_id: user.id).first
 	end
 	
 	def generate_wantlist	

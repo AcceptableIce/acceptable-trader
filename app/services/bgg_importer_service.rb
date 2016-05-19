@@ -5,6 +5,7 @@ module BggImporterService
 	end
 	
 	def self.start
+		Rails.logger.debug "Starting BGG Importer service."
 		scheduler = Rufus::Scheduler.new
 
 		scheduler.every "5s" do

@@ -11,7 +11,7 @@ class BggController < ApplicationController
 				show_error "Verification code did not match our records."
 			end 
 		else
-			redirect_to login_path
+			redirect_to user_session_path
 		end
 	end
 	

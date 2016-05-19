@@ -19,7 +19,8 @@ var WantlistGrid = React.createClass({
 		return {
 			selectionGrid: selectionGrid,
 			wants: this.props.wants,
-			loading: false
+			loading: false,
+			showSaveConfirmation: false
 		};
 	},
 	toggleSelection: function(row, column) {
@@ -51,7 +52,11 @@ var WantlistGrid = React.createClass({
 				},
 				success: function(data) {
 					console.log("Saved successfully");
-					this.setState({ loading: false });
+					this.setState({ loading: false, showSaveConfirmation: true });
+					var component = this;
+					setTimeout(function() { 
+						component.setState({ showSaveConfirmation: false });
+					}, 5000);
 				}.bind(this),
 				error: function(xhr, status, error) {
 					console.error(status, error.toString())
@@ -97,7 +102,8 @@ var WantlistGrid = React.createClass({
 				</table>
 				<a className="button large info" onClick={this.saveList} disabled={this.state.loading || this.props.wants_due}>
 					{this.props.wants_due ? "Wants deadline has passed." : (this.state.loading ? "Saving..." : "Save Wantlist")}
-				</a>			
+				</a>		
+				{this.state.showSaveConfirmation ? <div className="callout success save-confirmation">Wants saved.</div> : null}
 			</div>
 		);
 	}
