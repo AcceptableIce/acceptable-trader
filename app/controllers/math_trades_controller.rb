@@ -137,22 +137,12 @@ class MathTradesController < ApplicationController
 	end
 		
 	def retrieve_items
-		items = @trade.items.includes(:wants, :bgg_item)
+		items = @trade.items.includes(:wants, :bgg_item, :user, user: :bgg_user_data)
 		collection = current_user.get_collection
+		
 		# Retrieve all the items in the list
 		item_ids = items.pluck(&:bgg_item_id).select { |x| x != -1 }
-
-		bgg_items = BggItemData.where(id: item_ids)
-
-		# Find missing IDs and fetch mass item data from BGG
-		missing_item_ids = items.select {|x| !x.is_bgg_item_loaded? }.map {|x| x.bgg_item_id}
-		BggImporterService.enqueue_items(missing_item_ids)
 		
-		# Retrieve user data
-		user_data_mapping = items.includes(:user).joins(:user).distinct
-		user_data_ids = user_data_mapping.pluck(:bgg_user_data_id)
-		user_data_results = BggUserData.where(id: user_data_ids).index_by(&:id)
-		user_data = Hash[user_data_mapping.map { |x| [x.user_id, user_data_results[x.user.bgg_user_data_id]] }]
 		# Retrieve all the want data
 		want_data = MathTradeWant.joins("LEFT JOIN math_trade_want_items ON math_trade_want_items.math_trade_want_id = math_trade_wants.id")
 			.where(math_trade_id: @trade.id, user_id: current_user.id)
@@ -160,22 +150,9 @@ class MathTradesController < ApplicationController
 					
 		items = items.map do |x| 
 			hash = x.as_json
-			hash[:bgg_user_data] = user_data[x.user_id]
+			hash[:bgg_user_data] = x.user.bgg_user_data
 			hash[:linked_items] = x.get_linked_items
-			if x[:bgg_item] != -1 
-				if !x.bgg_item.nil?
-					hash[:bgg_item_data] = x.bgg_item.as_json
-				else
-				 	relevant_item = bgg_items[x.bgg_item_id]
-				 	if !relevant_item.nil?
-						hash[:bgg_item_data] = relevant_item.as_json
-					else
-						#hash[:bgg_item_data] = BggHelper.get_item(x[:bgg_item]).as_json
-					end
-				end
-			else
-				hash[:bgg_item_data] = nil
-			end
+			hash[:bgg_item_data] = x.bgg_item
 			hash[:want_data] = want_data[x.id] ? want_data[x.id].map { |x| x.want_id }.compact : nil
 			hash[:collection] = collection.status_of(x.bgg_item_id)
 			hash
