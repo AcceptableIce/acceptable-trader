@@ -39,4 +39,4 @@ If you have a change that you think would improve Acceptable Trader, please issu
 ## License
 Acceptable Trader is [GPL-3 licensed](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)#summary).
 
-The rules listed in `App/view/welcome/rules.html.erb` may be changed however you like.
+The rules listed in `App/views/welcome/rules.html.erb` may be changed however you like.
