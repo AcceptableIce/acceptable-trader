@@ -5,10 +5,12 @@ var TradeItemList = React.createClass({
 				user_items: [],
 				sort: "name",
 				sort_direction: "asc",
+				newFilter: false,
 				status: "loading",
 				error: null,
 				missingItems: 0,
-				missingItemsThatBelongToMe: 0
+				missingItemsThatBelongToMe: 0,
+				newItems: 0
 			}
 		},
 		fetchItems: function() {
@@ -21,6 +23,7 @@ var TradeItemList = React.createClass({
 				success: function(data) {
 					var missingItems = 0;
 					var missingItemsThatBelongToMe = 0;
+					var newItems = 0;
 					
 					for(var i = 0; i < data.length; i++) {
 						var item = data[i];
@@ -34,9 +37,12 @@ var TradeItemList = React.createClass({
 								missingItemsThatBelongToMe += 1;
 							}
 						}
+						if(item.seen == false) {
+							newItems += 1;
+						}
 					}
-					
-					this.setState({ items: data, status: "loaded", missingItems: missingItems, missingItemsThatBelongToMe: missingItemsThatBelongToMe });
+					data.forEach(function(item) { item.show = true; });
+					this.setState({ items: data, status: "loaded", missingItems: missingItems, missingItemsThatBelongToMe: missingItemsThatBelongToMe, newItems: newItems });
 					this.setUserItems();
 				}.bind(this),
 				error: function(xhr, status, error) {
@@ -75,20 +81,40 @@ var TradeItemList = React.createClass({
 			});
 			this.setState({ items: items });
 		},
+		filterNew: function(newFilterOn) {
+			var newItems = this.state.items.map(function(item) {
+				item.show = !newFilterOn || !item.seen;
+				return item;
+			});
+			this.setState({ items: newItems });
+		},
+		toggleNewFilter: function() {
+			var filterState = !this.state.newFilter;
+			this.setState({ newFilter: filterState });
+			this.filterNew(filterState);
+		},
 		componentDidMount: function() {
 			this.fetchItems();
 		},
 		render: function() {
 			var self_reference = this;
 			var trade_items = this.state.items.map(function(item) {
-					return (<TradeItem data={item} key={item.position} list={self_reference} />);
+					return item && item.show ? (<TradeItem data={item} key={item.position} list={self_reference} />) : false;
 			});
+			
 			if(this.state.status == "loaded") {
 				return(
 					<div class="trade-item-list">
 						{ this.state.missingItems > 0 ? this.state.missingItems + " item(s) are still being processed.&nbsp;" : null}
 						{ this.state.missingItemsThatBelongToMe > 0 ? "Of those, " + this.state.missingItemsThatBelongToMe + " belong to you." : null }
 						<TradeItemSort onSelection={this.onSort} />
+						{ this.state.newItems > 0 ? 
+							<div className="callout warning">
+								<span>{this.state.newItems == 1 ? "There is 1 new item." : "There are " + this.state.newItems + " new items." }</span>
+								<a className="button small new-filter-toggle" onClick={this.toggleNewFilter}>{this.state.newFilter ? "Show all" : "Show only new"}</a>
+							</div>
+							: null
+						}
 						<div className="trade-item-list-items">
 							{trade_items}
 						</div>

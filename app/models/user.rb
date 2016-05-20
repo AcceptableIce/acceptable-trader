@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :bgg_account, case_sensitive: false, message: "is already linked to another user."
   
   belongs_to :bgg_user_data
+  
+  has_many :math_trade_read_receipts
          
   def bgg_user
 	  if verified?

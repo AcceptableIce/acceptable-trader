@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160520042020) do
+ActiveRecord::Schema.define(version: 20160520043806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,16 @@ ActiveRecord::Schema.define(version: 20160520042020) do
   add_index "math_trade_items", ["deleted_at"], name: "index_math_trade_items_on_deleted_at", using: :btree
   add_index "math_trade_items", ["math_trade_id"], name: "index_math_trade_items_on_math_trade_id", using: :btree
   add_index "math_trade_items", ["user_id"], name: "index_math_trade_items_on_user_id", using: :btree
+
+  create_table "math_trade_read_receipts", force: :cascade do |t|
+    t.integer  "math_trade_item_id", null: false
+    t.integer  "user_id",            null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "math_trade_read_receipts", ["math_trade_item_id"], name: "index_math_trade_read_receipts_on_math_trade_item_id", using: :btree
+  add_index "math_trade_read_receipts", ["user_id"], name: "index_math_trade_read_receipts_on_user_id", using: :btree
 
   create_table "math_trade_want_confirmations", force: :cascade do |t|
     t.integer  "math_trade_id", null: false
@@ -193,6 +203,8 @@ ActiveRecord::Schema.define(version: 20160520042020) do
   add_foreign_key "bgg_item_data_ranks", "bgg_item_data"
   add_foreign_key "math_trade_items", "math_trades"
   add_foreign_key "math_trade_items", "users"
+  add_foreign_key "math_trade_read_receipts", "math_trade_items"
+  add_foreign_key "math_trade_read_receipts", "users"
   add_foreign_key "math_trade_want_confirmations", "math_trades"
   add_foreign_key "math_trade_want_confirmations", "users"
   add_foreign_key "math_trade_want_items", "math_trade_items"

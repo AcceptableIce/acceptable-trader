@@ -139,6 +139,7 @@ class MathTradesController < ApplicationController
 	def retrieve_items
 		items = @trade.items.includes(:wants, :bgg_item, :user, user: :bgg_user_data)
 		collection = current_user.get_collection
+		read_receipts = current_user.math_trade_read_receipts.joins(:math_trade_item).where(math_trade_items: { math_trade_id: @trade.id }).group_by(&:math_trade_item_id)
 		
 		# Retrieve all the items in the list
 		item_ids = items.pluck(&:bgg_item_id).select { |x| x != -1 }
@@ -156,6 +157,7 @@ class MathTradesController < ApplicationController
 			hash[:bgg_item_data] = x.bgg_item
 			hash[:want_data] = want_data[x.id] ? want_data[x.id].map { |x| x.want_id }.compact : nil
 			hash[:collection] = collection.status_of(x.bgg_item_id)
+			hash[:seen] = !read_receipts[x.id].nil? || x.user.id == current_user.id
 			hash
 		end
 		
@@ -189,6 +191,9 @@ class MathTradesController < ApplicationController
 				items
 			end	
 		end
+		
+		AddReadReceiptsJob.perform_now(items, current_user)
+
 		render json: items
 	end
 	

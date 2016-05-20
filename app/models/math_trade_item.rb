@@ -11,6 +11,8 @@ class MathTradeItem < ActiveRecord::Base
 		
 	has_many :wanted_by_items, through: :wants, source: :want_items
 	
+	has_many :math_trade_read_receipts
+	
 	validate :name_is_set, :check_linked_items
 	
 	belongs_to :bgg_item, class_name: "BggItemData"
