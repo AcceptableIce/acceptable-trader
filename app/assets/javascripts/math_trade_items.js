@@ -24,7 +24,7 @@ $(function() {
 			cache: true
 		},
 		escapeMarkup: function(markup) { return markup; },
-		minimumInputLength: 2,
+		minimumInputLength: 4,
 		templateResult: formatResult,
 		templateSelection: formatSelection
 	});
@@ -35,14 +35,14 @@ $(function() {
 		
 	
 	function formatResult(item) {
-		return item.name + (item.year_published ? " (" + item.year_published + ")" : "");
+		if(!item.loading) {
+			return item.name + (item.year_published ? " (" + item.year_published + ")" : "");
+		} else {
+			return "Loading...";
+		}
 	}
 	
 	function formatSelection(item) {
-		if(item) {
-			return item.name + (item.year_published ? " (" + item.year_published + ")" : "");
-		} else {
-			return "";
-		}
+		return item.name + (item.year_published ? " (" + item.year_published + ")" : "");
 	}
 });
