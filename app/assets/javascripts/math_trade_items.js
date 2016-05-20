@@ -9,7 +9,7 @@ $(function() {
 			data: function(params) {
 				return {
 					query: params.term,
-					page: params.page
+					page: params.page || 1
 				};
 			},
 			processResults: function(data, params) {

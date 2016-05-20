@@ -22,7 +22,7 @@ var TradeItemDescription = React.createClass({
 				if(linkedItem) {
 					linkedItemBody = (
 						<span>
-							<a href={"http://www.boardgamegeek.com/" + linkedItem.type + "/" + linkedItem.id} target="_blank">
+							<a href={"http://www.boardgamegeek.com/" + linkedItem.item_type + "/" + linkedItem.id} target="_blank">
 								{linkedItem.name} 
 								{linkedItem.year_published > 0 ? " (" + linkedItem.year_published + ")" : null}
 							

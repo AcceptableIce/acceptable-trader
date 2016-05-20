@@ -60,10 +60,11 @@ var TradeItemList = React.createClass({
 				"Position": function(x) { return x.position; },
 				"Name": function(x) { return x.alt_name ? x.alt_name : x.bgg_item_data.name; },
 				"Rank": function(x) { 
-					return x.bgg_item_data && x.bgg_item_data.statistics.rank.value != 0 ? x.bgg_item_data.statistics.rank.value : Number.MAX_VALUE;
+					var rank = x.bgg_item_data_ranks ? x.bgg_item_data_ranks.filter(function(item) { return item.name == "boardgame"; }) : [];
+					return rank.length > 0 && rank[0].value != 0 ? rank[0].value : Number.MAX_VALUE;
 				},
 				"Rating": function(x) {
-					return x.bgg_item_data && x.bgg_item_data.statistics.average != 0 ? x.bgg_item_data.statistics.average : Number.MAX_VALUE;
+					return x.bgg_item_data && x.bgg_item_data.average != 0 ? x.bgg_item_data.average : Number.MAX_VALUE;
 				},
 				"Poster": function(x) {
 					return x.bgg_user_data.name;

@@ -63,24 +63,25 @@ var TradeItem = React.createClass({
 			var item_data = this.props.data.bgg_item_data;
 			var user_data = this.props.data.bgg_user_data;
 			var user_link = "http://www.boardgamegeek.com/user/" + this.props.data.user_name 
-			var item_type =  item_data ? {"boardgame": "Board Game", "rpgitem": "RPG Item", "videogame": "Video Game"}[item_data.type] : "";
+			var item_type =  item_data ? {"boardgame": "Board Game", "rpgitem": "RPG Item", "videogame": "Video Game"}[item_data.item_type] : "";
 			var altname = this.props.data.alt_name;
 			var item_link = "/trades/" + this.props.list.props.trade.id + "/items/" + this.props.data.id;
-			var metadata = item_data && item_data.statistics ? (
+			var metadata = item_data ? (
 				<div className="trade-item-metadata">
 					{item_type} / {item_data.min_players}-{item_data.max_players} players /&nbsp;
 					{item_data.playing_time} minutes / <b>Trade</b>, Want, <i>Wish</i>:&nbsp;
-					<b>{item_data.statistics.trading}</b>,&nbsp;
-					{item_data.statistics.wanting},&nbsp;
-					<i>{item_data.statistics.wishing}</i>
+					<b>{item_data.trading}</b>,&nbsp;
+					{item_data.wanting},&nbsp;
+					<i>{item_data.wishing}</i>
 				</div>
 			) : null;
 			
-			var statistics = item_data && item_data.statistics ? (
+			var rank = item_data.rank ? item_data.rank.filter(function(item) { return item.name == "boardgame"; }) : [];
+			var statistics = item_data ? (
 				<span>
-					Rank: {item_data.statistics.rank.value == 0 ? "N/A" : item_data.statistics.rank.value}<br/>
-					Rating: {item_data.statistics.average == 0 ? "N/A" : Number(item_data.statistics.average).toFixed(2)}<br/>
-					Bayes: {item_data.statistics.bayes == 0 ? "N/A" : Number(item_data.statistics.bayes).toFixed(2)}
+					Rank: {rank.length == 0 || rank[0].value == 0 ? "N/A" : rank[0].value}<br/>
+					Rating: {item_data.average == 0 ? "N/A" : Number(item_data.average).toFixed(2)}<br/>
+					Bayes: {item_data.bayes == 0 ? "N/A" : Number(item_data.bayes).toFixed(2)}
 				</span>
 			) : null;
 			

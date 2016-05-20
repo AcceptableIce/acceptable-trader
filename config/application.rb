@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -24,6 +25,8 @@ module MathTradeManager
     config.sass.load_paths << File.expand_path('../../lib/assets/stylesheets/')
 		config.sass.load_paths << File.expand_path('../../vendor/assets/stylesheets/')
 		
+		#config.active_job.queue_adapter = :async
+
 		initializer "start_bgg_importer", after: :after_initialize do |app|
 			BggImporterService.start
 		end
