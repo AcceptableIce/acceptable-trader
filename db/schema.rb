@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160517221244) do
+ActiveRecord::Schema.define(version: 20160520042020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,8 +77,10 @@ ActiveRecord::Schema.define(version: 20160517221244) do
     t.integer  "position"
     t.string   "alt_name"
     t.boolean  "did_trade",     default: false
+    t.datetime "deleted_at"
   end
 
+  add_index "math_trade_items", ["deleted_at"], name: "index_math_trade_items_on_deleted_at", using: :btree
   add_index "math_trade_items", ["math_trade_id"], name: "index_math_trade_items_on_math_trade_id", using: :btree
   add_index "math_trade_items", ["user_id"], name: "index_math_trade_items_on_user_id", using: :btree
 

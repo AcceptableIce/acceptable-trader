@@ -1,5 +1,5 @@
 <%= render layout: "math_trades/trade_layout" do %>
-<% if @bgg_item.nil? %>
+<% if @bgg_item.nil? && @item.bgg_item_id != -1%>
 <h1>Pending (<%= @item.id %>)</h1>
 <h5>Listed in <%= link_to @item.math_trade.name, @item.math_trade %> by <%= @item.user.bgg_account %></h5>
 <p>
@@ -7,21 +7,24 @@
 	a more detailed view here, and your item will show up in the list.
 </p>
 <% else %>
-	<div class="trade-item-data">
-		<% if @bgg_item.thumbnail != "" %>
-			<img src="<%= @bgg_item.thumbnail %>" />
-		<% end %>
-		<p>
-			<b>Average Ranking:</b> <%= @bgg_item.average %><br>
-			<% @bgg_item.bgg_item_data_ranks.each do |rank| %>
-				<b><%= rank.friendly_name ? rank.friendly_name : rank.name %>:</b> <%= rank.value %><br>
-			<% end %>
-		</p>
-	</div>
-	<div class="trade-item-header">
+	<% if @bgg_item %>
+		<div class="trade-item-data">
+				<% if @bgg_item.thumbnail != "" %>
+					<img src="<%= @bgg_item.thumbnail %>" />
+				<% end %>
+				<p>
+					<b>Average Ranking:</b> <%= @bgg_item.average %><br>
+					<% @bgg_item.bgg_item_data_ranks.each do |rank| %>
+						<b><%= rank.friendly_name ? rank.friendly_name : rank.name %>:</b> <%= rank.value %><br>
+					<% end %>
+				</p>
+		</div>
+	<% end %>
+
+	<div class="trade-item-header <%= @item.bgg_item_id == -1 ? "item-trade-header-full" : "" %>">
 		<h2>
 			<%= @item.position %>. <%= @item.alt_name && @item.alt_name.length > 0 ? @item.alt_name : @bgg_item.name %> 
-			<% if @bgg_item.year_published %>
+			<% if  @bgg_item && @bgg_item.year_published %>
 				(<%= @bgg_item.year_published %>)
 			<% end %>
 		</h2>
@@ -35,19 +38,22 @@
 		</fieldset>
 		<% if @item.user_id == current_user.id %>
 			<%= link_to "Edit", edit_math_trade_math_trade_item_path(@trade, @item), class: "button tiny success" %>
+			<%= link_to "Delete", math_trade_math_trade_item_path(@trade, @item), method: :delete, class: "button tiny alert" %>
 		<% end %>
 	</div>
-	<hr>
-	<p>
-		<%= raw @bgg_item.description %>
-	</p>
-	<% if @bgg_item.playing_time %>
+	<% if @bgg_item %>
+		<hr>
 		<p>
-			<b>Play Time:</b> <%= @bgg_item.playing_time %> minutes.
+				<%= raw @bgg_item.description %>
 		</p>
+		<% if @bgg_item.playing_time %>
+			<p>
+				<b>Play Time:</b> <%= @bgg_item.playing_time %> minutes.
+			</p>
+		<% end %>
+		<p>
+			<b>Bayes Average:</b> <%= @bgg_item.bayes %>
+		</p>		
 	<% end %>
-	<p>
-		<b>Bayes Average:</b> <%= @bgg_item.bayes %>
-	</p>		
 <% end %>
 <% end %>

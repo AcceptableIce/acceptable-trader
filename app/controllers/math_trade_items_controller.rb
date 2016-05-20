@@ -43,8 +43,11 @@ class MathTradeItemsController < ApplicationController
 	
 	def destroy
 		@item = MathTradeItem.find(params[:id])
+		if @item.user.id != current_user.id
+			render :unauthorized
+		end
 		if @item != nil
-			@item.deleted_at = Time.now
+			@item.delete
 		end
 		
 		redirect_to @item.math_trade

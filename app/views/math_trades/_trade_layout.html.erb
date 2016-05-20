@@ -33,6 +33,10 @@
 	      <li><%= link_to "Who Wanted Mine", who_wanted_mine_math_trade_path(@trade) %></li>
 			<% end %>
 			
+			<li class="trade-nav-title">Tools</li>
+			<li><%= link_to "Generate Wantlist", generate_wantlist_math_trade_path(@trade) %></li>
+
+			
 			<% if @trade.moderator_id == current_user.id %>
 	      <li class="trade-nav-title">Administration</li>
 	      <% if @trade.status != "finalized" %>

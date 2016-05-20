@@ -5,6 +5,7 @@ class MathTradeItem < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :math_trade
 	acts_as_list scope: :math_trade
+	acts_as_paranoid
 	
 	has_many :wants, class_name: "MathTradeWant"
 		

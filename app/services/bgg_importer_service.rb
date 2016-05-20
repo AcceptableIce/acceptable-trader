@@ -21,7 +21,6 @@ module BggImporterService
 				Rails.logger.debug("#{@@items_queue.length} game records, #{missing_users.length} user records unimported.")
 				if @@items_queue.length > 0
 					items_to_fetch = @@items_queue.length > 200 ? @@items_queue.shift(200).compact : @@items_queue
-					p items_to_fetch.to_s
 					items = BggHelper.fetch_items(items_to_fetch)
 					items_ids = items.map { |x| x.id }
 					items_missing = items_to_fetch - items_ids
@@ -38,6 +37,7 @@ module BggImporterService
 					end
 				end
 			rescue ActiveRecord::ConnectionTimeoutError
+				p "Issue with importing: #{items_to_fetch}"
 			end
 		end
 	end
