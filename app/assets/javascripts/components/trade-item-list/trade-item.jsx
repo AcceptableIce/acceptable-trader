@@ -76,7 +76,7 @@ var TradeItem = React.createClass({
 				</div>
 			) : null;
 			
-			var rank = item_data.rank ? item_data.rank.filter(function(item) { return item.name == "boardgame"; }) : [];
+			var rank = item_data && item_data.rank ? item_data.rank.filter(function(item) { return item.name == "boardgame"; }) : [];
 			var statistics = item_data ? (
 				<span>
 					Rank: {rank.length == 0 || rank[0].value == 0 ? "N/A" : rank[0].value}<br/>
