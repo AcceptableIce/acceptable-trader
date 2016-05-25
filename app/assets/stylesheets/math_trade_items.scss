@@ -62,7 +62,7 @@
 }
 
 .own,
-.preorderd {
+.preordered {
 	background-color: rgba(133, 202, 255, 0.3);
 	border-color: rgba(26, 102, 159, 0.3);	
 }
@@ -117,37 +117,57 @@
 	top: -2px;
 }
 
+.linked-item {
+	display: inline-block;
+	padding: 2px 5px;
+	border: 1px solid #fff;
+	background-color: #fff;
+}
+
+.linked-item.sweetener {
+	background-color: rgb(245, 164, 164);
+	border-color: rgb(197, 71, 71);
+}
+
 .collection-tag.own,
-.collection-tag.preordered {
+.collection-tag.preordered,
+.linked-item.own,
+.linked-item.preordered {
 	background-color: rgb(133, 202, 255);
 	border-color: rgb(26, 102, 159);	
 }
 
-.collection-tag.prev_owned {
+.collection-tag.prev_owned,
+.linked-item.prev_owned {
 	background-color: rgb(200, 230, 254);
 	border-color: rgb(137, 190, 211);
 }
 
-.collection-tag.want {
+.collection-tag.want,
+.linked-item.want {
 	background-color: rgb(63, 188, 94);
 	border-color: rgb(22, 117, 5);
 }
-.collection-tag.wishlist {
+.collection-tag.wishlist,
+.linked-item.wishlist {
 	background-color: rgb(229, 240, 68);
 	border-color: rgb(161, 176, 0);
 }
 
-.collection-tag.for_trade {
+.collection-tag.for_trade,
+.linked-item.for_trade {
 	background-color: rgb(204, 139, 195);
 	border-color: rgb(145, 36, 143);
 }
 
-.collection-tag.want_to_play {
+.collection-tag.want_to_play,
+.linked-item.want_to_play {
 	background-color: rgb(227, 197, 115);
 	border-color: rgb(186, 134, 23);
 }
 
-.collection-tag.want_to_buy {
+.collection-tag.want_to_buy,
+.linked-item.want_to_buy {
 	background-color: rgb(195, 245, 189);
 	border-color: rgb(141, 208, 121);
 }
@@ -215,18 +235,6 @@
 
 .trade-item a {
 	color: #4187B5;
-}
-
-.linked-item {
-	display: inline-block;
-	padding: 2px 5px;
-	border: 1px solid #fff;
-	background-color: #fff;
-}
-
-.linked-item.sweetener {
-	background-color: rgb(245, 164, 164);
-	border-color: rgb(197, 71, 71);
 }
 
 .linked-item a {

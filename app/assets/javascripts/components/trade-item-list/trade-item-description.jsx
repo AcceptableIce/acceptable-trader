@@ -37,7 +37,13 @@ var TradeItemDescription = React.createClass({
 				} else {
 					linkedItemBody = "Linked item not found. (ID: " + matches[2] + ")";
 				}
-				descriptionComponents.push(<div key={matches[2]} className="linked-item sweetener">{linkedItemBody}</div>);
+				var linkedItemClass = "";
+				if(linkedItem.collection) {
+					for(var key in linkedItem.collection) {
+						if(linkedItem.collection[key] && linkedItemClass === "") linkedItemClass = key;
+					}
+				}
+				descriptionComponents.push(<div key={matches[2]} className={"linked-item sweetener " + linkedItemClass}>{linkedItemBody}</div>);
 			} else {
 				descriptionComponents.push(parts[index]);
 			}

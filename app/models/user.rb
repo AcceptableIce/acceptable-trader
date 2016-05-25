@@ -33,7 +33,18 @@ class User < ActiveRecord::Base
 		if value.nil? || value.count == -1
 			Rails.cache.delete("user_#{id}/collection")
 			value = Rails.cache.fetch("user_#{id}/collection", expires_in: 12.hours) do
-				BoardGameGem.get_collection(bgg_account) rescue BGGCollection.new(nil)
+				types = %w{boardgame boardgameexpansion boardgameaccessory rpgitem rpgissue videogame}
+				collections = []
+				types.each do |type|
+					collection_data = BoardGameGem.get_collection(bgg_account, subtype: type) rescue nil
+					unless collection_data.nil?
+						collections.push(collection_data)
+					end
+				end
+				collection = BGGCollection.new(nil)
+				collection.count = collections.reduce(0) { |memo, obj| memo + obj.count }
+				collection.items = collections.reduce([]) { |memo, obj| memo + obj.items }
+				collection
 			end
 		end
 		return value
