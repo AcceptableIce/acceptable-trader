@@ -42,7 +42,8 @@ class MathTradeItem < ActiveRecord::Base
 		description.gsub(/\[item(=(.*?))?\]/) do |match|
 			item_code = Regexp.last_match[2]
 			item_data = BggHelper.get_item(item_code)
-			linked_items[item_code] = item_data;
+			linked_items[item_code] = item_data.as_json
+			linked_items[item_code][:ranks] = item_data.bgg_item_data_ranks
 		end
 		return linked_items
 	end

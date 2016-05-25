@@ -29,9 +29,6 @@ class BggController < ApplicationController
 		items = Rails.cache.fetch("search/#{query}", expires_in: 10.minutes) do
 			BoardGameGem.search(query)
 		end
-		page_start = params[:page] ? params[:page].to_i * 30 : 0
-		page_end = page_start + 29
-		items[:items] = items[:items][page_start..page_end]
 		render json: items
 	end
 

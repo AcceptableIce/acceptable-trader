@@ -17,7 +17,7 @@ $(function() {
 				return {
 					results: data.items,
 					pagination: {
-						more: (params.page + 1) * 30 < data.total
+						more: (params.page + 1) * 250 < data.total
 					}
 				}
 			},

@@ -153,7 +153,7 @@ class MathTradesController < ApplicationController
 			hash[:bgg_user_data] = x.user.bgg_user_data
 			hash[:linked_items] = x.get_linked_items
 			hash[:bgg_item_data] = x.bgg_item
-			hash[:bgg_item_data_ranks] = x.bgg_item ? x.bgg_item.bgg_item_data_ranks : nil
+			hash[:bgg_item_data_ranks] = x.bgg_item ? x.bgg_item.bgg_item_data_ranks : nil	
 			hash[:want_data] = want_data[x.id] ? want_data[x.id].map { |x| x.want_id }.compact : nil
 			hash[:collection] = collection.status_of(x.bgg_item_id)
 			hash[:seen] = !read_receipts[x.id].nil? || x.user.id == current_user.id

@@ -62,6 +62,7 @@ var TradeItem = React.createClass({
 			var background_class = "trade-item " + (this.getStatus().length > 0 ? this.getStatus()[0] : "");
 			var item_data = this.props.data.bgg_item_data;
 			var user_data = this.props.data.bgg_user_data;
+			var rank_data = this.props.data.bgg_item_data_ranks;
 			var user_link = "http://www.boardgamegeek.com/user/" + this.props.data.user_name 
 			var item_type =  item_data ? {"boardgame": "Board Game", "rpgitem": "RPG Item", "videogame": "Video Game"}[item_data.item_type] : "";
 			var altname = this.props.data.alt_name;
@@ -76,7 +77,7 @@ var TradeItem = React.createClass({
 				</div>
 			) : null;
 			
-			var rank = item_data && item_data.rank ? item_data.rank.filter(function(item) { return item.name == "boardgame"; }) : [];
+			var rank = rank_data ? rank_data .filter(function(item) { return item.name == "boardgame"; }) : [];
 			var statistics = item_data ? (
 				<span>
 					Rank: {rank.length == 0 || rank[0].value == 0 ? "N/A" : rank[0].value}<br/>

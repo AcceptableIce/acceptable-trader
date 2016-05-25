@@ -20,6 +20,7 @@ var TradeItemDescription = React.createClass({
 				var linkedItem = linkedItems[matches[2]];
 				var linkedItemBody = "";
 				if(linkedItem) {
+					var rank_data = linkedItem && linkedItem.ranks ? linkedItem.ranks.filter(function(x) { return x.name == "boardgame"; }) : [];
 					linkedItemBody = (
 						<span>
 							<a href={"http://www.boardgamegeek.com/" + linkedItem.item_type + "/" + linkedItem.id} target="_blank">
@@ -27,10 +28,10 @@ var TradeItemDescription = React.createClass({
 								{linkedItem.year_published > 0 ? " (" + linkedItem.year_published + ")" : null}
 							
 							</a>
-							{linkedItem.statistics && linkedItem.statistics.ranks && linkedItem.statistics.ranks.length > 0 ? 
-								<span className="linked-item-data">Rank: {linkedItem.statistics.ranks[0].value}</span> : null}
-							{linkedItem.statistics && linkedItem.statistics.average > 0 ? 
-								<span className="linked-item-data">Rating: {Number(linkedItem.statistics.average).toFixed(2)}</span> : null}
+							{rank_data.length > 0 && rank_data[0].value > 0 ? 
+								<span className="linked-item-data">Rank: {rank_data[0].value}</span> : null}
+							{linkedItem.average > 0 ? 
+								<span className="linked-item-data">Rating: {Number(linkedItem.average).toFixed(2)}</span> : null}
 						</span>
 					);
 				} else {
