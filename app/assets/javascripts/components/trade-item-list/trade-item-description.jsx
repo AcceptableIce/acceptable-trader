@@ -19,6 +19,7 @@ var TradeItemDescription = React.createClass({
 			if(matches) {
 				var linkedItem = linkedItems[matches[2]];
 				var linkedItemBody = "";
+				var linkedItemClass = "";
 				if(linkedItem) {
 					var rank_data = linkedItem && linkedItem.ranks ? linkedItem.ranks.filter(function(x) { return x.name == "boardgame"; }) : [];
 					linkedItemBody = (
@@ -34,15 +35,16 @@ var TradeItemDescription = React.createClass({
 								<span className="linked-item-data">Rating: {Number(linkedItem.average).toFixed(2)}</span> : null}
 						</span>
 					);
+					
+					if(linkedItem.collection) {
+						for(var key in linkedItem.collection) {
+							if(linkedItem.collection[key] && linkedItemClass === "") linkedItemClass = key;
+						}
+					}
 				} else {
 					linkedItemBody = "Linked item not found. (ID: " + matches[2] + ")";
 				}
-				var linkedItemClass = "";
-				if(linkedItem.collection) {
-					for(var key in linkedItem.collection) {
-						if(linkedItem.collection[key] && linkedItemClass === "") linkedItemClass = key;
-					}
-				}
+				
 				descriptionComponents.push(<div key={matches[2]} className={"linked-item sweetener " + linkedItemClass}>{linkedItemBody}</div>);
 			} else {
 				descriptionComponents.push(parts[index]);
