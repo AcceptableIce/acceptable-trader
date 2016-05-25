@@ -63,8 +63,16 @@ var TradeItem = React.createClass({
 			var item_data = this.props.data.bgg_item_data;
 			var user_data = this.props.data.bgg_user_data;
 			var rank_data = this.props.data.bgg_item_data_ranks;
-			var user_link = "http://www.boardgamegeek.com/user/" + this.props.data.user_name 
-			var item_type =  item_data ? {"boardgame": "Board Game", "rpgitem": "RPG Item", "videogame": "Video Game"}[item_data.item_type] : "";
+			var user_link = "http://www.boardgamegeek.com/user/" + this.props.data.user_name;
+			var humanReadableTypes = {
+				"boardgame": "Board Game", 
+				"boardgameexpansion": "Board Game Expansion",
+				"boardgameaccessory": "Board Game Accessory",
+				"rpgitem": "RPG Item", 
+				"rpgissue": "RPG Issue",
+				"videogame": "Video Game"
+			}; 
+			var item_type =  item_data ? humanReadableTypes[item_data.item_type] : "";
 			var altname = this.props.data.alt_name;
 			var item_link = "/trades/" + this.props.list.props.trade.id + "/items/" + this.props.data.id;
 			var metadata = item_data ? (
