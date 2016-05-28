@@ -174,6 +174,8 @@ class MathTradesController < ApplicationController
 				items.select { |x| !x[:collection].nil? && x[:collection][:own] }	
 			when "me"
 				items.select { |x| x["user_id"] == current_user.id }
+			when "notme"
+				items.select { |x| x["user_id"] != current_user.id }
 			when "giftcertificate"
 				items.select do |x| 
 					item_matches_phrases(x, ["gift card", "giftcard", "gift certificate", "giftcertificate", "gc"])

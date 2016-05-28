@@ -18,7 +18,12 @@ Rails.application.routes.draw do
 	end
 	
 	resources :math_trades, path: 'trades' do
-		resources :math_trade_items, path: 'items'
+		resources :math_trade_items, path: 'items' do
+			collection do
+				get :show_copy_from_previous_trade
+				post :copy_from_previous_trade
+			end
+		end
 		resources :math_trade_wants, path: 'wants'
 		resources :want_groups, path: 'groups'
 		

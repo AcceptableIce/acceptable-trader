@@ -6,11 +6,18 @@
 		</p>
 		<%= link_to "Manage My Wantlist", manage_wantlist_math_trade_url(@trade), class: "button large" %>
 	<% else %>
-		<h3>Hold on a moment...</h3>
-		<p>
-			You can't add items to your wantlist until you've listed some items of your own. 
-			Click the link below to do that now.
-		</p>
-		<%= link_to "Add an Item", new_math_trade_math_trade_item_path(@trade), class: "button large" %>
+		<% if @trade.can_submit_items? %>
+			<h3>Hold on a moment...</h3>
+			<p>
+				You can't add items to your wantlist until you've listed some items of your own. 
+				Click the link below to do that now.
+			</p>
+			<%= link_to "Add an Item", new_math_trade_math_trade_item_path(@trade), class: "button large" %>
+		<% else %>
+			<h3>This trade is closed.</h3>
+			<p>
+				No new items can be added.
+			</p>
+		<% end %>
 	<% end %>
 <% end %>

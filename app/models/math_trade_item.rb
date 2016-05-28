@@ -7,11 +7,11 @@ class MathTradeItem < ActiveRecord::Base
 	acts_as_list scope: :math_trade
 	acts_as_paranoid
 	
-	has_many :wants, class_name: "MathTradeWant"
+	has_many :wants, class_name: "MathTradeWant", :dependent => :destroy
 		
 	has_many :wanted_by_items, through: :wants, source: :want_items
 	
-	has_many :math_trade_read_receipts
+	has_many :math_trade_read_receipts, :dependent => :destroy
 	
 	validate :name_is_set, :check_linked_items
 	

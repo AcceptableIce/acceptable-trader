@@ -1,0 +1,15 @@
+<%= render layout: "math_trades/trade_layout" do %>
+<h1>Copy from a Previous Trade</h1>
+<% @previous_trades.each do |trade| %>
+	<% untraded_items = trade.items_from_user(current_user).select { |x| !x.did_trade } %>
+	<% if trade.id != @trade.id && (untraded_items - @items_for_user).length > 0 %>
+			<h3><%= trade.name %></h3>
+			<p>
+				<%= untraded_items.map { |x| x.bgg_item.name }.to_sentence %>
+			</p>
+			<p>
+					<%= link_to "Copy", copy_from_previous_trade_math_trade_math_trade_items_path(@trade, copy_from_id: trade.id), method: :post, class: "button large" %>
+			</p>
+	<% end %>
+<% end %>
+<% end %>

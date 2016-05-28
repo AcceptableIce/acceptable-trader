@@ -9,13 +9,21 @@
 			</ul>
 		</div>
 	<% end %>
-	<p>
-		<%= form.label :bgg_item_id, "BoardGameGeek Item" %>
-		<%= form.select :bgg_item_id, [], {}, value: ActiveSupport::JSON.encode(BggHelper.get_item(@item.bgg_item)), class: "bgg-search" %>
-		<p class="help-text">
-			Leave this blank if you're trading outside the scope of BoardGameGeek.
+	<% case params[:mode] %>
+	<% when "fortrade" %>
+		<p>
+			<%= form.label :bgg_item_id, "BoardGameGeek Item" %>
+			<%= form.select :bgg_item_id, current_user.get_collection.get_for_trade.map { |item| [item.name, item.id] }, {}, value: @item.bgg_item_id %>
 		</p>
-	</p>
+	<% else %>
+		<p>
+			<%= form.label :bgg_item_id, "BoardGameGeek Item" %>
+			<%= form.select :bgg_item_id, [], {}, value: ActiveSupport::JSON.encode(@item.bgg_item), class: "bgg-search" %>
+			<p class="help-text">
+				Leave this blank if you're trading outside the scope of BoardGameGeek.
+			</p>
+		</p>
+	<% end %>
 	<p>
 		<%= form.label :alt_name, "Alternate Name" %>
 		<%= form.text_field :alt_name %>

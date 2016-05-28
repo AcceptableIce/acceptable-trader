@@ -1,7 +1,7 @@
 class MathTrade < ActiveRecord::Base
 	enum status: [:draft, :active, :pending, :finalized]
 	belongs_to :moderator, class_name: "User"
-	has_many :items, -> {order 'position asc' }, class_name: "MathTradeItem"
+	has_many :items, -> {order 'position asc' }, class_name: "MathTradeItem", :dependent => :destroy
 	has_many :wants, class_name: "MathTradeWant"
 	has_many :want_groups
 	has_many :math_trade_want_confirmations
@@ -20,6 +20,10 @@ class MathTrade < ActiveRecord::Base
 	def users_in_trade
 		items.group_by(&:user_id).keys.map { |x| User.find(x) }
 	end
+	
+	def is_user_in_trade?(user)
+		users_in_trade.any? { |x| x.id == user.id }
+	end
 
 	def get_user_wantlist(user)
 		wants.includes(:item, item: :bgg_item).where(user_id: user.id)
@@ -35,6 +39,10 @@ class MathTrade < ActiveRecord::Base
 	
 	def wants_due?
 		return DateTime.now > wants_deadline
+	end
+	
+	def can_submit_items?
+		!offers_due? && status == "active"
 	end
 	
 	def confirmed_users
@@ -81,7 +89,7 @@ class MathTrade < ActiveRecord::Base
 				!BEGIN-OFFICIAL-NAMES
 				HEADER
 				
-		item_index_length = Math.log(item_count, 10).ceil
+		item_index_length = item_count > 0 ? Math.log(item_count, 10).ceil : 0
 		item_code_reference = {}
 		items.each_with_index do |item, index|
 			name = item.alt_name && item.alt_name.length > 0 ? item.alt_name : item.to_bgg_item.name
