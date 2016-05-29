@@ -1,10 +1,13 @@
 <%= render layout: "math_trades/trade_layout" do %>
-	<% if @trade.items_from_user(current_user).length > 0 %>
+	<% if @trade.items_from_user(current_user).length > 0 || !@trade.can_submit_wants? %>
 		<%= react_component 'TradeItemList', { trade: @trade, user_id: current_user.id, filter: params[:filter], offers_due: !@trade.can_submit_items?, wants_due: !@trade.can_submit_wants? } %>
-		<p>
-			When you've finished selecting items, click the button below to manage your wantlist.
-		</p>
-		<%= link_to "Manage My Wantlist", manage_wantlist_math_trade_url(@trade), class: "button large" %>
+		<% if @trade.can_submit_wants? %>
+			<p>
+				When you've finished selecting items, click the button below to manage your wantlist.
+			</p>
+			<%= link_to "Manage My Wantlist", manage_wantlist_math_trade_url(@trade), class: "button large" %>
+
+		<% end %>
 	<% else %>
 		<% if @trade.can_submit_items? %>
 			<h3>Hold on a moment...</h3>
@@ -14,10 +17,8 @@
 			</p>
 			<%= link_to "Add an Item", new_math_trade_math_trade_item_path(@trade), class: "button large" %>
 		<% else %>
-			<h3>This trade is closed.</h3>
-			<p>
-				No new items can be added.
-			</p>
+			<%= react_component 'TradeItemList', { trade: @trade, user_id: current_user.id, filter: params[:filter], offers_due: true, wants_due: true } %>
+
 		<% end %>
 	<% end %>
 <% end %>

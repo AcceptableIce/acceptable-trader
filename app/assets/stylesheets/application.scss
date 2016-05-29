@@ -91,6 +91,14 @@ footer a:hover {
 	background-color: #4488bc;
 }
 
+.top-bar ul.submenu li.divider {
+	border-top: 1px solid #003154;
+}
+
+.top-bar ul.submenu li.divider a {
+	padding-bottom: 0.9rem;
+}
+
 .row .center-row {
 	margin: 0 auto;
 	max-width: 1200px;
