@@ -1,0 +1,23 @@
+<%= render layout: "trade_layout" do %>
+<div class="row">
+	<div class="small-12 columns">
+		<h1>Generate Wantlist</h1>
+		<%= form_tag(generate_wantlist_math_trade_path(@trade), method: :post) do %>
+		<p>
+			<%= label_tag :seed %>
+			<%= number_field_tag :seed %>
+		</p>
+		<p>
+			<%= label_tag :iterations %>
+			<%= number_field_tag :iterations %>
+		</p>	
+		<p>
+			<%= label_tag :metric %>
+			<%= select_tag :metric, options_for_select(["Users-Trading", "Chain-Sizes-SOS"]) %>
+		<p>
+			<%= submit_tag "Generate", class: "button" %>
+		</p>
+		<% end %>
+	</div>
+</div>
+<% end %>

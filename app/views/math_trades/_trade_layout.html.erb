@@ -47,7 +47,6 @@
 	     		<li><%= link_to "Edit Trade Info", edit_math_trade_path(@trade) %></li>
 			 		<li><%= link_to "Manage Trade Status", status_math_trade_path(@trade) %></li>
 	      <% end %>
-	      <li><%= link_to "Generate Wantlist", generate_wantlist_math_trade_path(@trade) %></li>
 				<% if @trade.status != "finalized" %>
 	      	<li><%= link_to "Upload Results", upload_math_trade_path(@trade) %></li>
 					<li><%= link_to "Delete Trade", confirm_delete_math_trade_path(@trade) %></li>

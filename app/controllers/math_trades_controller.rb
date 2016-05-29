@@ -34,7 +34,7 @@ class MathTradesController < ApplicationController
 	end
 	
 	def generate_wantlist
-		render plain: @trade.generate_wantlist
+		render plain: @trade.generate_wantlist(params)
 	end
 	
 	def wantlist

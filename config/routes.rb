@@ -35,12 +35,14 @@ Rails.application.routes.draw do
 			get :upload
 			get :results
 			get :raw_results
-			get :generate_wantlist
+			get :generate_wantlist, to: "math_trades#show_generate_wantlist"
 			get :who_wanted_mine
 			
 			post :confirm_wants
 			post :save_wantlist
 			post :save_status
+			post :generate_wantlist
+			
 			patch :upload_results
 		end
 	end
