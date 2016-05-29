@@ -45,6 +45,10 @@ class MathTrade < ActiveRecord::Base
 		!offers_due? && status == "active"
 	end
 	
+	def can_submit_wants?
+		!wants_due? && status == "active"
+	end
+	
 	def confirmed_users
 		return math_trade_want_confirmations.map { |x| x.user }
 	end

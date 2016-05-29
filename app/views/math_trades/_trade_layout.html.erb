@@ -10,12 +10,14 @@
      	 <li><%= link_to "Add From Collection", new_math_trade_math_trade_item_path(@trade, mode: "fortrade") %></li>
      	 <li><%= link_to "Copy from Previous Trade", show_copy_from_previous_trade_math_trade_math_trade_items_path(@trade) %></li>
      	<% end %>
-      <li><%= link_to "My Listings", math_trade_math_trade_items_path(@trade, filter: "me") %></li>
+      <li><%= link_to "My Offers", math_trade_math_trade_items_path(@trade, filter: "me") %></li>
           
       <li class="trade-nav-title">My Wants</li>
       <% if !(@trade.wants_due? || @trade.status != "active") %>
       	<li><%= link_to "Add Items to Wantlist", math_trade_math_trade_items_path(@trade) %></li>
-      <% end %>
+      <% else %>
+        <li><%= link_to "View Offers", math_trade_math_trade_items_path(@trade) %></li>
+			<% end %>
 			<li><%= link_to (@trade.wants_due? || @trade.status != "active") ? "View Wantlist": "Manage Wantlist", manage_wantlist_math_trade_path(@trade) %></li>
 			
       <li class="trade-nav-title">Filter</li>

@@ -95,19 +95,27 @@ var TradeItem = React.createClass({
 			) : null;
 			
 			var addButtonClass = "button small "  + (this.state.want_data ? " wants-button warning" : "info")
-			var addButtons = this.props.data.user_id !== this.props.list.props.user_id ? (
-				<span>
-					<div className={addButtonClass} onClick={this.onShowAddRequest}>
-						{this.state.showAdd ? "Close" : (this.state.want_data ? "Wants (" + this.state.want_data.length + ")" : "Add") }
-					</div>
-					{this.state.showQuickAdd ? <div className="button hollow info small" onClick={this.onQuickAdd}>Quick<br/>Add</div> : null}
-				</span>
-			) : 
-			(
-				<span>
-					<a className="button success small" href={item_link + "/edit"}>Edit</a>
-				</span>
-			);
+			var addButtons = "";
+			if(this.props.data.user_id !== this.props.list.props.user_id) {
+				if(!this.props.list.props.wants_due) {
+					addButtons = (
+						<span>
+							<div className={addButtonClass} onClick={this.onShowAddRequest}>
+								{this.state.showAdd ? "Close" : (this.state.want_data ? "Wants (" + this.state.want_data.length + ")" : "Add") }
+							</div>
+							{this.state.showQuickAdd ? <div className="button hollow info small" onClick={this.onQuickAdd}>Quick<br/>Add</div> : null}
+						</span>
+					);
+				}
+			} else {
+				if(!this.props.list.props.offers_due) {
+					addButtons = (
+						<span>
+							<a className="button success small" href={item_link + "/edit"}>Edit</a>
+						</span>
+					);
+				}
+			}
 			
 			return (
 				<div className={background_class}>

@@ -21,15 +21,16 @@ var WantlistRow = React.createClass({
 			}
 		});
 		var itemName;
+		var removeRow = this.props.wantlist.props.wants_due ? "" : (<a className="button tiny alert wantlist-row-remove" onClick={this.props.removeRow}>&times;</a>);
 		if(this.props.data.is_group) {
-			itemName = <td className="wantlist-row-name wantlist-cell-group">{this.props.data.name}</td>
+			itemName = (<td className="wantlist-row-name wantlist-cell-group">{this.props.data.name}</td>);
 		} else {
-			itemName = <td className="wantlist-row-name">
+			itemName = (<td className="wantlist-row-name">
 				<a href={"/trades/" + this.props.trade.id + "/items/" + this.props.data.item_id}>
 					{this.props.data.alt_name ? this.props.data.alt_name : this.props.data.bgg_item_data.name}
 				</a>
-				<a className="button tiny alert wantlist-row-remove" onClick={this.props.removeRow}>&times;</a>
-			</td>
+				{removeRow}
+			</td>);
 		}
 		return (
 			<tr>

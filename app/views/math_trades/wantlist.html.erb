@@ -1,7 +1,7 @@
 <%= render layout: "trade_layout" do %>
 <h1>Manage Wantlist</h1>
 <% if @wantlist.length > 0 %>
-	<%= react_component "Wantlist", trade: @trade, wants: @wantlist, items: @items, groups: @groups, wants_due: @trade.wants_due?, offers_due: @trade.offers_due?, confirmed: @trade.user_confirmation(current_user), status: @trade.status %>
+	<%= react_component "Wantlist", trade: @trade, wants: @wantlist, items: @items, groups: @groups, wants_due: !@trade.can_submit_wants?, offers_due: !@trade.can_submit_items?, confirmed: @trade.user_confirmation(current_user), status: @trade.status %>
 <% else %>
 	<p>
 		You need to add an item to your wantlist first! Browse the list until you find an item that strikes 

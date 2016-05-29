@@ -73,6 +73,7 @@ var WantlistGrid = React.createClass({
 		this.setState({ selectionGrid: selectionGrid, wants: wants });
 	},
 	render: function() {
+		var self_reference = this;
 		var items = this.props.items;
 		var selectionGrid = this.state.selectionGrid;
 		var trade = this.props.trade;
@@ -84,7 +85,7 @@ var WantlistGrid = React.createClass({
 		var wants = this.state.wants.map(function(item, index) {
 			return <WantlistRow 
 				key={index} data={item} items={items} selectionRow={selectionGrid[index]} trade={trade} 
-				index={index} toggle={toggleSelection} removeRow={function() { removeRow(index); } }
+				index={index} toggle={toggleSelection} wantlist={self_reference} removeRow={function() { removeRow(index); } }
 				/>
 		});
 		return (

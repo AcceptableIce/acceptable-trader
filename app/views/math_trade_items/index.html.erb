@@ -1,6 +1,6 @@
 <%= render layout: "math_trades/trade_layout" do %>
 	<% if @trade.items_from_user(current_user).length > 0 %>
-		<%= react_component 'TradeItemList', { trade: @trade, user_id: current_user.id, filter: params[:filter] } %>
+		<%= react_component 'TradeItemList', { trade: @trade, user_id: current_user.id, filter: params[:filter], offers_due: !@trade.can_submit_items?, wants_due: !@trade.can_submit_wants? } %>
 		<p>
 			When you've finished selecting items, click the button below to manage your wantlist.
 		</p>
