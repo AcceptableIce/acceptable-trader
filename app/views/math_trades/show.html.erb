@@ -28,7 +28,7 @@
 		<% end %>
 	</div>
 	<% end %>
-	
+	<% if @trade.status != "finalized" %>
 	<p class="row">
 		<div class="small-6 columns center">
 			<h5>
@@ -55,6 +55,7 @@
 			</h5>
 		</div>
 	</p>
+	<% end %>
 	<fieldset class="fieldset">
 		<legend>Description</legend>
 		<%= @trade.description %>

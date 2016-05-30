@@ -44,6 +44,7 @@ class User < ActiveRecord::Base
 				collection = BGGCollection.new(nil)
 				collection.count = collections.reduce(0) { |memo, obj| memo + obj.count }
 				collection.items = collections.reduce([]) { |memo, obj| memo + obj.items }
+				collection.items.uniq! { |item| item.id }
 				collection
 			end
 		end

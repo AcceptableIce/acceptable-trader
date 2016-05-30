@@ -29,7 +29,7 @@
 							Trade ended on <%= trade.finalized_at %>.
 						<% elsif trade.status != "draft" %>
 							Offers are due <%= trade.offers_due? ? "" : "in " + distance_of_time_in_words_to_now(trade.offer_deadline) %>.<br>
-							Wants are due <%= trade.offers_due? ? "" : "in " + distance_of_time_in_words_to_now(trade.offer_deadline) %>.
+							Wants are due <%= trade.wants_due? ? "" : "in " + distance_of_time_in_words_to_now(trade.wants_deadline) %>.
 						<% else %>
 							<b>Draft mode.</b>
 						<% end %>
