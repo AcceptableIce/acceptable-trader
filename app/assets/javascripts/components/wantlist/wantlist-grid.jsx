@@ -111,6 +111,35 @@ var WantlistGrid = React.createClass({
 				index={index} toggle={toggleSelection} wantlist={self_reference} removeRow={function() { removeRow(index); } }
 				/>
 		});
+		var buttons = [];
+		if(!this.props.wants_due) {
+			if(this.props.parent.props.offers_due) {
+				buttons.push(
+					<a key="submit" className={"button large wantlist-submit " + (this.props.parent.state.confirmed ? "warning" : "success") } onClick={this.finalizeList}>
+						{ this.props.parent.state.confirmed ? "Unfinalize" : "Save and Finalize" }
+					</a>
+				);
+				if(!this.props.parent.state.confirmed) {
+					buttons.push(
+						<a key="save" className="button large info wantlist-submit " onClick={this.saveList}>
+							{this.state.loading ? "Saving..." : "Just Save"}
+						</a>
+					);
+				}
+			} else {
+				buttons.push(
+					<a key="save" className="button large info wantlist-submit " onClick={this.saveList}>
+						{this.state.loading ? "Saving..." : "Save Wantlist"}
+					</a>	
+				);
+			}
+		} else {
+			buttons.push(
+				<a key="submit" className="button large info wantlist-submit" disabled>
+					Wants deadline has passed.
+				</a>
+			);
+		}
 		return (
 			<div className="wantlist-grid">
 				<table className="wantlist">
@@ -124,22 +153,7 @@ var WantlistGrid = React.createClass({
 						{wants}
 					</tbody>
 				</table>
-				{!this.props.wants_due ?
-					(			
-						this.props.parent.props.offers_due ? 
-						<a className={"button large wantlist-submit " + (this.props.parent.state.confirmed ? "warning" : "success") } onClick={this.finalizeList}>
-							{ this.props.parent.state.confirmed ? "Unlock and Unsubmit" : "Lock and Submit" }
-						</a>
-					:
-						<a className="button large info wantlist-submit " onClick={this.saveList}>
-							(this.state.loading ? "Saving..." : "Save Wantlist")
-						</a>		
-					)
-				:
-					<a className="button large info wantlist-submit" disabled>
-						Wants deadline has passed.
-					</a>
-				}
+				{ buttons }
 				{ this.props.locked ? <div className="wantlist-curtain"><div className="wantlist-curtain-text">Wantlist is locked.</div></div> : null }
 				{ this.state.showSaveConfirmation ? <div className="callout success save-confirmation">Wants saved.</div> : null}
 			</div>
