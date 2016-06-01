@@ -26,35 +26,22 @@ var Wantlist = React.createClass({
 	toggleDuplicateProtection: function() {
 		this.setState({ showDuplicateProtection: !this.state.showDuplicateProtection });
 	},
-	submitWants: function() {
-		$.ajax({
-			url: "/trades/" + this.props.trade.id + "/confirm_wants",
-				dataType: "json",
-				cache: false,
-				method: "post",
-				data: {},
-				success: function(data) {
-					console.log("Saved successfully");
-					this.setState({ confirmed: { created_at: "a few moments ago" } });
-				}.bind(this),
-				error: function(xhr, status, error) {
-					console.error(status, error.toString());
-					this.setState({ confirmed: { created_at: this.state.createdAt + ". (An error occurred while saving.)"} });
-				}.bind(this)
-		});
-	},
 	render: function() {
-		var created_at = null;
-		if(this.state.confirmed) {
-			created_at = this.state.confirmed.created_at;
-			if(this.state.confirmed.created_at != "a few moments ago") {
-				created_at = created_at.replace("T", " ").split(".")[0];
+		var updated_at = null;
+		if(this.props.offers_due) {
+			if(this.state.confirmed) {
+				updated_at = this.state.confirmed.updated_at;
+				if(this.state.confirmed.updated_at != "a few moments ago") {
+					updated_at = updated_at.replace("T", " ").split(".")[0];
+				}
+				updated_at = "Wants submitted " + updated_at + ".";
+			} else {
+				updated_at = "<b>You have not submitted your wants.</b>"
 			}
 		}
 		return (
 			<div className="wantlist-container">
-				<p>
-					{this.state.confirmed ? "Wants last submitted " + created_at + "." : ""}
+				<p dangerouslySetInnerHTML={ { __html: updated_at ? updated_at : "" } }>
 				</p>
 				<a className="button small info" onClick={this.toggleMode}>
 					{this.state.grid ? "Show Summary" : "Show Grid"}
@@ -62,17 +49,10 @@ var Wantlist = React.createClass({
 				<a className="button small info" onClick={this.toggleDuplicateProtection}>
 					{this.state.showDuplicateProtection ? "Hide" : "Show"} Duplicate Protection
 				</a>
-				{
-				this.props.offers_due && this.props.status == "active" ? 
-				<a className="button small info" onClick={this.submitWants}>
-					{this.state.confirmed ? "Resubmit Wantlist" : "Submit Wantlist"}
-				</a>
-				:
-				null
-				}
-				<WantlistDuplicateProtection items={this.props.items} groups={this.state.groups} wantlist={this} visible={this.state.showDuplicateProtection} wants_due={this.props.wants_due}/>
+				
+				<WantlistDuplicateProtection items={this.props.items} groups={this.state.groups} wantlist={this} visible={this.state.showDuplicateProtection} locked={this.props.wants_due || this.state.confirmed}/>
 				{this.state.grid ? 
-				<WantlistGrid trade={this.props.trade} wants={this.getWants()} items={this.getItems()} wants_due={this.props.wants_due} />
+				<WantlistGrid trade={this.props.trade} wants={this.getWants()} items={this.getItems()} wants_due={this.props.wants_due} locked={this.state.confirmed} parent={this} />
 				:
 				<WantlistSummary trade={this.props.trade} wants={this.getWants()} items={this.getItems()} />}
 			</div>

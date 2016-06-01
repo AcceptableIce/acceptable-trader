@@ -63,6 +63,29 @@ var WantlistGrid = React.createClass({
 				}.bind(this)
 		});
 	},
+	finalizeList: function() {
+		if(!this.props.locked) this.saveList();
+		
+		$.ajax({
+			url: "/trades/" + this.props.trade.id + "/confirm_wants",
+				dataType: "json",
+				cache: false,
+				method: "post",
+				data: {},
+				success: function(data) {
+					if(data.status === 0) {
+						this.props.parent.setState({ confirmed: null });
+					} else {
+						this.props.parent.setState({ confirmed: { updated_at: "a few moments ago" } });
+					}
+				}.bind(this),
+				error: function(xhr, status, error) {
+					console.error(status, error.toString());
+					this.props.parent.setState({ confirmed: { updated_at: this.state.updated_at + ". (An error occurred while saving.)"} });
+				}.bind(this)
+		});
+
+	},
 	removeRow: function(index) {
 		var row = this.state.wants[index];
 		var selectionGrid = this.state.selectionGrid;
@@ -101,10 +124,24 @@ var WantlistGrid = React.createClass({
 						{wants}
 					</tbody>
 				</table>
-				<a className="button large info" onClick={this.saveList} disabled={this.state.loading || this.props.wants_due}>
-					{this.props.wants_due ? "Wants deadline has passed." : (this.state.loading ? "Saving..." : "Save Wantlist")}
-				</a>		
-				{this.state.showSaveConfirmation ? <div className="callout success save-confirmation">Wants saved.</div> : null}
+				{!this.props.wants_due ?
+					(			
+						this.props.parent.props.offers_due ? 
+						<a className={"button large wantlist-submit " + (this.props.parent.state.confirmed ? "warning" : "success") } onClick={this.finalizeList}>
+							{ this.props.parent.state.confirmed ? "Unlock and Unsubmit" : "Lock and Submit" }
+						</a>
+					:
+						<a className="button large info wantlist-submit " onClick={this.saveList}>
+							(this.state.loading ? "Saving..." : "Save Wantlist")
+						</a>		
+					)
+				:
+					<a className="button large info wantlist-submit" disabled>
+						Wants deadline has passed.
+					</a>
+				}
+				{ this.props.locked ? <div className="wantlist-curtain"><div className="wantlist-curtain-text">Wantlist is locked.</div></div> : null }
+				{ this.state.showSaveConfirmation ? <div className="callout success save-confirmation">Wants saved.</div> : null}
 			</div>
 		);
 	}

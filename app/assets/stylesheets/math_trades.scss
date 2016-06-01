@@ -171,3 +171,32 @@
 .wants-button {
 	padding: 0.75em 0.25em;
 }
+
+.wantlist-grid {
+	position: relative;
+}
+
+.wantlist-curtain {
+	z-index: 9;
+	background-color: rgba(255, 255, 255, 0.75);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	text-align: center;
+	line-height: 100%;
+}
+
+.wantlist-curtain-text {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2.0em;
+  color: rgba(40, 40, 40, 0.75);
+}
+
+.wantlist-submit {
+	z-index: 10;
+	position: relative;
+}

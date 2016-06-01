@@ -126,8 +126,15 @@ class MathTradesController < ApplicationController
 	end
 	
 	def confirm_wants
-		@trade.math_trade_want_confirmations.create(user_id: current_user.id)
-		render json: { error: false, message: "Saved successfully." }	
+		confirmation = @trade.math_trade_want_confirmations.where(user_id: current_user.id).first
+		if confirmation.nil?
+			@trade.math_trade_want_confirmations.create(user_id: current_user.id)
+			status = 1
+		else 
+			confirmation.destroy	
+			status = 0
+		end
+		render json: { error: false, status: status, message: "Saved successfully." }	
 	end
 	
 	def destroy

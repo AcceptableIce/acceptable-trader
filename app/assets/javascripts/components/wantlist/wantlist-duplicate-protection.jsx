@@ -38,7 +38,7 @@ var WantlistDuplicateProtection = React.createClass({
 		var groupList = this.props.groups.map(function(group) {
 			return <div>{group.name}</div>
 		});
-		var groupForm = !this.props.wants_due ? (
+		var groupForm = !this.props.locked ? (
 			<span>
 				<hr />
 				<h5>Create a New Group</h5>
