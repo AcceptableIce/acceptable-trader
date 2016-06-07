@@ -95,7 +95,13 @@ class MathTrade < ActiveRecord::Base
 		item_index_length = item_count > 0 ? Math.log(item_count, 10).ceil : 0
 		item_code_reference = {}
 		items.each_with_index do |item, index|
-			name = item.alt_name && item.alt_name.length > 0 ? item.alt_name : item.to_bgg_item.name
+			if item.alt_name && item.alt_name.length > 0
+				name = item.alt_name
+			else
+				bgg_item = item.to_bgg_item
+				next if bgg_item.nil?
+				name = bgg_item.name
+			end
 			item_code = "#{index.to_s.rjust(item_index_length, "0")}-#{item.id}-#{BggHelper.generate_short_name(name)}"
 			wantlist += item_code
 			wantlist += " ==> \"#{name}\" (from #{item.user.bgg_account})\n"
@@ -140,7 +146,7 @@ class MathTrade < ActiveRecord::Base
 				if !group_links.nil?
 					(want_items_list << group_links).flatten!
 				end
-				if want_items_list.length > 0
+				if want_items_list.length > 0 && !item_code_reference[item.id].nil?
 					"(#{user.bgg_account}) #{item_code_reference[item.id]} : #{want_items_list.join(" ")}"
 				else
 					nil
