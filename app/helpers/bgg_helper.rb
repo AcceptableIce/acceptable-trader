@@ -63,12 +63,7 @@ module BggHelper
 	end
 	
 	def self.get_item(id)
-		item = BggItemData.find_by_id(id)
-		if item.nil? || (DateTime.now - item.created_at.to_date).to_i > 14
-			item_data = BoardGameGem.get_item(id, true, 1) rescue nil
-			item = BggHelper.save_item(item_data)
-		end
-		item
+		BggItemData.find_by_id(id)
 	end
 	
 	def self.save_item(item)
