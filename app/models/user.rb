@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
 		code = (0...20).map { (65 + rand(26)).chr }.join
 		update_attributes bgg_account_verification_code: code
 		
-		link = "http://trade.acceptableice.com/bgg/verify_user_account?key=#{code}"
+		link = "http://trade.maybreak.com/bgg/verify_user_account?key=#{code}"
 		BggHelper.send_mail_to_user(BoardGameGem.get_user(bgg_account),
 			"Link your BGG Account to Acceptable Trader",
 			"Heya, #{bgg_account}.\n\nWe've gotten a request to link your BGG account with Acceptable Trader. " +

@@ -42,10 +42,12 @@ class MathTradeItem < ActiveRecord::Base
 		description.gsub(/\[item(=(.*?))?\]/) do |match|
 			item_code = Regexp.last_match[2]
 			item_data = BggHelper.get_item(item_code)
-			linked_items[item_code] = item_data.as_json
-			linked_items[item_code][:ranks] = item_data.bgg_item_data_ranks
-			unless collection.nil?
-				linked_items[item_code][:collection] = collection.status_of(item_data.id)
+			if item_data
+				linked_items[item_code] = item_data.as_json
+				linked_items[item_code][:ranks] = item_data.bgg_item_data_ranks
+				unless collection.nil?
+					linked_items[item_code][:collection] = collection.status_of(item_data.id)
+				end
 			end
 		end
 		return linked_items

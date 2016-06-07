@@ -7,12 +7,12 @@ Acceptable Trader was built with two primary design goals:
 
 2. __Decreased Reliance on BoardGameGeek:__ The [Online Wantlist Generator](http://bgg.activityclub.org/olwlg) (upon which Acceptable Trader is based) tends to fail when attempting to import listings for overly large trades. Acceptable Trader handles offer lists internally, side-stepping the GeekList syncing issue entirely. Acceptable Trader _does_ use the BGG XMLAPI2 to retrieve game and user metadata, as well as to message users.
 
-Acceptable Trader is built on Ruby on Rails and React.js. The Rubygem used to retrieve BoardGameGeek data can be found here: [acceptableice/board-game-gem](http://github.com/acceptableice/board-game-gem).
+Acceptable Trader is built on Ruby on Rails and React.js. The Rubygem used to retrieve BoardGameGeek data can be found here: [Corvimae/board-game-gem](http://github.com/Corvimae/board-game-gem).
 
 ## Installing Acceptable Trader
 1. Clone this repository into a directory.
 
-        git clone https://github.com/acceptableice/acceptable-trader
+        git clone https://github.com/Corvimae/acceptable-trader
 
 2. Install dependencies with bundler.
 
@@ -34,7 +34,7 @@ Acceptable Trader is built on Ruby on Rails and React.js. The Rubygem used to re
 ## Contributing to Acceptable Trader
 Contributions to Acceptable Trader are encouraged. This repository is public for a reason, after all!
 
-If you have a change that you think would improve Acceptable Trader, please issue a pull request and I'll look at it as soon as I can. If your change is critical, you can contact me on [Twitter (@AcceptableIce)](http://twitter.com/acceptableice).
+If you have a change that you think would improve Acceptable Trader, please issue a pull request and I'll look at it as soon as I can. If your change is critical, you can contact me on [Twitter (@Corvimae)](http://twitter.com/Corvimae).
 
 ## License
 Acceptable Trader is [GPL-3 licensed](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)#summary).
