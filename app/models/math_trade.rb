@@ -99,8 +99,7 @@ class MathTrade < ActiveRecord::Base
 				name = item.alt_name
 			else
 				bgg_item = item.to_bgg_item
-				next if bgg_item.nil?
-				name = bgg_item.name
+				name = bgg_item ? bgg_item.name : "ITEM NOT IMPORTED"
 			end
 			item_code = "#{index.to_s.rjust(item_index_length, "0")}-#{item.id}-#{BggHelper.generate_short_name(name)}"
 			wantlist += item_code
